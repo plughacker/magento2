@@ -4,6 +4,10 @@
     "version": "1.0.0",
     "type": "magento2-module",
     "description": "Magento 2 Module Plug",
+    "require": {
+        "plughacker/api-plug-magento2-module": "*",
+        "plughacker/core-plug-magento2-module": "*"
+    },
     "autoload": {
         "files": [
             "registration.php"
