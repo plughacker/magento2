@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="PlugCreditCardUiConfigProvider" type="Magento\Payment\Model\CcGenericConfigProvider">
+        <arguments>
+            <argument name="methodCodes" xsi:type="array">
+                <item name="plug_creditcard" xsi:type="const">PlugHacker\PlugPagamentos\Model\Ui\CreditCard\ConfigProvider::CODE</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="PlugCreditCardInstallmentsUiConfigProvider" type="PlugHacker\PlugPagamentos\Model\Ui\CreditCard\InstallmentsConfigProvider">
+        <arguments>
+            <argument name="config" xsi:type="object">PlugCreditCardInstallment</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="plug_creditcard_config_provider" xsi:type="object">PlugCreditCardUiConfigProvider</item>
+                <item name="plug_creditcard_config_provider_unique" xsi:type="object">PlugHacker\PlugPagamentos\Model\Ui\CreditCard\ConfigProvider</item>
+                <item name="generic_config_provider" xsi:type="object">Magento\Payment\Model\CcGenericConfigProvider</item>
+                <item name="installments_creditcard" xsi:type="object">PlugCreditCardInstallmentsUiConfigProvider</item>
+                <item name="plug_billet_config_provider" xsi:type="object">PlugHacker\PlugPagamentos\Model\Ui\Billet\ConfigProvider</item>
+                <item name="plug_pix_config_provider" xsi:type="object">PlugHacker\PlugPagamentos\Model\Ui\Pix\ConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

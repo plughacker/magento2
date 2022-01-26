@@ -1,0 +1,182 @@
+<?xml version="1.0"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/V1/plug/creditcard/installments" method="POST">
+        <service class="PlugHacker\PlugPagamentos\Api\InstallmentsManagementInterface"
+                 method="getInstallments"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/plug/customer/create" method="POST">
+        <service
+                class="PlugHacker\PlugPagamentos\Api\CustomerCreateManagementInterface"
+                method="createCustomer"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/plug/webhook" method="POST">
+        <service class="PlugHacker\PlugPagamentos\Api\WebhookManagementInterface"
+                 method="save"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/plug/installments/brand/:brand" method="GET">
+        <service
+                class="PlugHacker\PlugPagamentos\Api\InstallmentsByBrandManagementInterface"
+                method="getInstallmentsByBrand"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/plug/installments/brandbyamount/:brand/:amount"
+           method="GET">
+        <service
+                class="PlugHacker\PlugPagamentos\Api\InstallmentsByBrandAndAmountManagementInterface"
+                method="getInstallmentsByBrandAndAmount"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/plug/maintenance/:params" method="GET">
+        <service class="PlugHacker\PlugPagamentos\Api\MaintenanceInterface"
+                 method="index"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/plug/creditcard/token" method="POST">
+        <service class="PlugHacker\PlugPagamentos\Api\CreditCardManagementInterface" method="getCreditCardToken"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+
+    <!-- Recurrence Apis -->
+    <route url="/V1/plug/recurrence/product/formData" method="POST">
+        <service class="PlugHacker\PlugPagamentos\Api\ProductSubscriptionApiInterface"
+                 method="saveFormData"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/plug/recurrence/plan/product/formData" method="POST">
+        <service class="PlugHacker\PlugPagamentos\Api\ProductPlanInterface"
+                 method="saveFormData"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+    <route url="/V1/plug/recurrence/product" method="POST">
+        <service class="PlugHacker\PlugPagamentos\Api\ProductSubscriptionApiInterface"
+                 method="save"/>
+        <resources>
+            <resource ref="Magento_Catalog::products"/>
+        </resources>
+    </route>
+    <route url="/V1/plug/recurrence/product" method="GET">
+        <service class="PlugHacker\PlugPagamentos\Api\ProductSubscriptionApiInterface"
+                 method="list"/>
+        <resources>
+            <resource ref="Magento_Catalog::products"/>
+        </resources>
+    </route>
+    <route url="/V1/plug/recurrence/product/:id" method="GET">
+        <service class="PlugHacker\PlugPagamentos\Api\ProductSubscriptionApiInterface"
+                 method="getProductSubscription"/>
+        <resources>
+            <resource ref="Magento_Catalog::products"/>
+        </resources>
+    </route>
+    <route url="/V1/plug/recurrence/product/:id" method="PUT">
+        <service class="PlugHacker\PlugPagamentos\Api\ProductSubscriptionApiInterface"
+                 method="update"/>
+        <resources>
+            <resource ref="Magento_Catalog::products"/>
+        </resources>
+    </route>
+    <route url="/V1/plug/recurrence/product/:id" method="DELETE">
+        <service class="PlugHacker\PlugPagamentos\Api\ProductSubscriptionApiInterface"
+                 method="delete"/>
+        <resources>
+            <resource ref="Magento_Catalog::products"/>
+        </resources>
+    </route>
+    <route url="/V1/plug/recurrence/subscription" method="GET">
+        <service class="PlugHacker\PlugPagamentos\Api\SubscriptionApiInterface"
+                 method="list"/>
+        <resources>
+            <resource ref="Magento_Sales::sales"/>
+        </resources>
+    </route>
+    <route url="/V1/plug/recurrence/subscription/cancel/:id" method="POST">
+        <service class="PlugHacker\PlugPagamentos\Api\SubscriptionApiInterface"
+                 method="cancel"/>
+        <resources>
+            <resource ref="Magento_Sales::sales"/>
+        </resources>
+    </route>
+    <route url="/V1/plug/recurrence/invoice/:id" method="GET">
+        <service class="PlugHacker\PlugPagamentos\Api\InvoiceApiInterface" method="getByInvoiceId"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
+    <route url="/V1/plug/recurrence/invoice/cancel/:id" method="POST">
+        <service class="PlugHacker\PlugPagamentos\Api\InvoiceApiInterface" method="cancelByInvoiceId"/>
+        <resources>
+            <resource ref="Magento_Sales::sales" />
+        </resources>
+    </route>
+    <route url="/V1/plug/recurrence/plan/product" method="POST">
+        <service class="PlugHacker\PlugPagamentos\Api\ProductPlanApiInterface"
+                 method="save"/>
+        <resources>
+            <resource ref="Magento_Catalog::products"/>
+        </resources>
+    </route>
+    <route url="/V1/plug/recurrence/plan/product/:id" method="PUT">
+        <service class="PlugHacker\PlugPagamentos\Api\ProductPlanApiInterface"
+                 method="update"/>
+        <resources>
+            <resource ref="Magento_Catalog::products"/>
+        </resources>
+    </route>
+    <route url="/V1/plug/recurrence/plan/product" method="GET">
+        <service class="PlugHacker\PlugPagamentos\Api\ProductPlanApiInterface"
+                 method="list"/>
+        <resources>
+            <resource ref="Magento_Catalog::products"/>
+        </resources>
+    </route>
+    <route url="/V1/plug/recurrence/plan/product/:id" method="GET">
+        <service class="PlugHacker\PlugPagamentos\Api\ProductPlanApiInterface"
+                 method="find"/>
+        <resources>
+            <resource ref="Magento_Catalog::products"/>
+        </resources>
+    </route>
+    <route url="/V1/plug/recurrence/plan/product/:id" method="DELETE">
+        <service class="PlugHacker\PlugPagamentos\Api\ProductPlanApiInterface"
+                 method="delete"/>
+        <resources>
+            <resource ref="Magento_Catalog::products"/>
+        </resources>
+    </route>
+    <route url="/V1/plug/charge/cancel/:id" method="POST">
+        <service class="PlugHacker\PlugPagamentos\Api\ChargeApiInterface"
+                 method="cancel"/>
+        <resources>
+            <resource ref="Magento_Sales::sales"/>
+        </resources>
+    </route>
+    <route url="/V1/plug/bulk" method="POST">
+        <service class="PlugHacker\PlugPagamentos\Api\BulkApiInterface"
+                 method="execute"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
+</routes>

@@ -1,0 +1,30 @@
+<?php /* @var \PlugHacker\PlugPagamentos\Block\Payment\Info\CreditCard $this */ ?>
+<?php if ($this->getCcType()): ?>
+
+    <?php
+    /**
+     * @var \PlugHacker\PlugCore\Kernel\Aggregates\Transaction $transactionRequests
+     */
+    $transactionRequests =  $this->getTransactionInfo();
+    ?>
+    <span><?php echo __($this->getTitle()); ?></span>
+    <br/>
+    <br/>
+    <span><b><?php echo __('Brand'); ?>: </b><?php echo $this->getCcBrand(); ?></span>
+    <br/>
+    <span><b><?php echo __('Number'); ?>: </b><?php echo $this->getCardLast4(); ?></span>
+    <br/>
+    <span><b><?php echo __('Installments'); ?>: </b><?php echo $this->getInstallments(); ?></span>
+    <?php if (!empty($transactionRequests['authorized'])) {?>
+        <br/>
+        <span><b><?= __('NSU'); ?>: </b><?= $transactionRequests['authorized'] ?></span>
+    <?php } ?>
+    <br/>
+    <?php if (!empty($transactionRequests['captured'])) {?>
+        <span><b><?= __('NSU from capture'); ?>: </b><?= $transactionRequests['captured'] ?></span>
+        <br/>
+    <?php } ?>
+    <?php if (!empty($transactionRequests['tid'])) {?>
+        <span><b><?= __('TID'); ?>: </b><?= $transactionRequests['tid'] ?></span>
+    <?php } ?>
+<?php endif ?>

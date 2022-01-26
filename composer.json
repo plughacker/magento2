@@ -1,0 +1,15 @@
+{
+    "name": "plughacker/magento2",
+    "license": "MIT",
+    "version": "1.0.0",
+    "type": "magento2-module",
+    "description": "Magento 2 Module Plug",
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "PlugHacker\\PlugPagamentos\\": ""
+        }
+    }
+}
