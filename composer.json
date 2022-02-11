@@ -3,7 +3,8 @@
     "license": "MIT",
     "version": "1.0.0",
     "type": "magento2-module",
-    "description": "Magento 2 Module Plug",
+    "description": "Magento 2 Plug Module",
+    "minimum-stability": "dev",
     "require": {
         "plughacker/magento2-api": "1.0.0",
         "plughacker/magento2-core": "1.0.0"
