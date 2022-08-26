@@ -13,7 +13,7 @@ if (!empty($pixInfo)):
         <!-- QR Code -->
         <div style="margin: 0 auto 10px; text-align: center;">
             <!-- SUBSTITUIR PELO QRCODE -->
-            <img width="200" src="<?= $pixInfo['qr_code_url']?>" />
+            <img width="200" src="<?= $pixInfo['qrCodeImageUrl']?>" />
             <!-- ./SUBSTITUIR PELO QRCODE -->
         </div>
         <!-- ./QR Code -->
@@ -31,7 +31,7 @@ if (!empty($pixInfo)):
                 </svg>
                 <a onclick="copyQrCode()" style="display: inline-block; vertical-align: middle; margin: 0 5px 0 0;">Copiar
                     código PIX</a>
-                <input style="opacity: 0; user-select: none; pointer-events: none;" type="text" value="<?= $pixInfo['qr_code']?>" id="mp_qr_code" />
+                <input style="opacity: 0; user-select: none; pointer-events: none;" type="text" value="<?= $pixInfo['qrCodeData']?>" id="plug_qr_code" />
             </div>
             <!-- ./COPIAR -->
         </div>
@@ -62,7 +62,7 @@ if (!empty($pixInfo)):
 
     <script>
         function copyQrCode() {
-            var copyText = document.getElementById("mp_qr_code");
+            var copyText = document.getElementById("plug_qr_code");
 
             copyText.select();
             copyText.setSelectionRange(0, 99999);

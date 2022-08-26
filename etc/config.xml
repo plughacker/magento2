@@ -10,6 +10,7 @@
             <global>
                 <webhook_key/>
                 <webhook_key_test/>
+                <invoice_sendmail>1</invoice_sendmail>
             </global>
         </plug>
         <payment>

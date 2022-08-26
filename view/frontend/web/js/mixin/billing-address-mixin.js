@@ -16,7 +16,7 @@ define([
                 }
 
                 if (addressData != null) {
-                    platFormConfig.addresses.billingAddress = createBillingAddress(addressData);
+                    plugPlatFormConfig.addresses.billingAddress = createBillingAddress(addressData);
                 }
 
                 return this;

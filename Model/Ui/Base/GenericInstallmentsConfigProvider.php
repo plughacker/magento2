@@ -33,9 +33,9 @@ abstract class GenericInstallmentsConfigProvider implements ConfigProviderInterf
 
     public function getConfig()
     {
-        $config = [
+        return [
             'payment' => [
-                'ccform' => [
+                'plugccform' => [
                     'base_url' => $this->storageManager->getStore()->getBaseUrl(),
                     'api_url' => $this->baseConfig->getBaseUrl(),
                     'installments' => [
@@ -149,14 +149,17 @@ abstract class GenericInstallmentsConfigProvider implements ConfigProviderInterf
                             'width' => 46,
                             'url' => $this->_assetRepo->getUrl("PlugHacker_PlugPagamentos::images/cc/Banese.png")
                         ],
+                        'JCB' => [
+                            'height' => 30,
+                            'width' => 46,
+                            'url' => $this->_assetRepo->getUrl("PlugHacker_PlugPagamentos::images/cc/JCB2.png")
+                        ],
                     ],
                 ]
             ],
             'is_multi_buyer_enabled' => $this->_getConfig()->getMultiBuyerActive(),
             'region_states' => $this->getRegionStates()
         ];
-
-        return $config;
     }
 
 

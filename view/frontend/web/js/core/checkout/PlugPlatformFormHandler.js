@@ -111,11 +111,11 @@ PlugFormHandler.prototype.fillExpirationMonthSelect = function (formText, method
     }
 };
 
-PlugFormHandler.prototype.fillSavedCreditCardsSelect = function (platformConfig, formObject) {
+PlugFormHandler.prototype.fillSavedCreditCardsSelect = function (plugPlatformConfig, formObject) {
     var html = '';
-    var cards = platformConfig.savedAllCards[formObject.savedCardSelectUsed];
+    var cards = plugPlatformConfig.savedAllCards[formObject.savedCardSelectUsed];
     var brands = [];
-    platformConfig.avaliableBrands[formObject.savedCardSelectUsed].forEach(function (item) {
+    plugPlatformConfig.avaliableBrands[formObject.savedCardSelectUsed].forEach(function (item) {
         brands.push(item.title);
     })
 
@@ -149,9 +149,9 @@ PlugFormHandler.prototype.fillSavedCreditCardsSelect = function (platformConfig,
     }
 };
 
-PlugFormHandler.prototype.fillMultibuyerStateSelect = function (platformConfig, formObject) {
+PlugFormHandler.prototype.fillMultibuyerStateSelect = function (plugPlatformConfig, formObject) {
     var html = "";
-    var states = platformConfig.region_states;
+    var states = plugPlatformConfig.region_states;
     if (states) {
         var stateKeys = Object.keys(states);
         var len = stateKeys.length;

@@ -2,15 +2,15 @@ var PlugCore = {
     paymentMethod : []
 };
 
-PlugCore.initPaymentMethod = function (methodCode, platformConfig, cardNumberValidator) {
+PlugCore.initPaymentMethod = function (methodCode, plugPlatformConfig, cardNumberValidator) {
     var _self = this;
     setTimeout(function() {
-        _self.init(methodCode, platformConfig, cardNumberValidator);
+        _self.init(methodCode, plugPlatformConfig, cardNumberValidator);
     }, 1000);
 };
 
-PlugCore.init = function (methodCode, platformConfig, cardNumberValidator) {
-    this.paymentMethod[methodCode] = new PlugPaymentMethodController(methodCode, platformConfig, cardNumberValidator);
+PlugCore.init = function (methodCode, plugPlatformConfig, cardNumberValidator) {
+    this.paymentMethod[methodCode] = new PlugPaymentMethodController(methodCode, plugPlatformConfig, cardNumberValidator);
     this.paymentMethod[methodCode].init();
 }
 

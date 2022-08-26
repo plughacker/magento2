@@ -52,33 +52,31 @@ define([
     window.PlugCore.messageList = globalMessageList;
     return Component.extend({
         initPaymentMethod: function() {
-            var _self = this;
-            platFormConfig = window.checkoutConfig;
-            platFormConfig.moduleUrls = {};
-            creditCardTokenUrl = creditCardTokenAction();
-            installmentsUrl = installmentsAction();
-            platFormConfig.grand_total = quote.getTotals()().grand_total;
-            var baseUrl = platFormConfig.payment.ccform.base_url;
+            plugPlatFormConfig = window.checkoutConfig;
+            plugPlatFormConfig.plugModuleUrls = {};
+            plugPlatFormConfig.grand_total = quote.getTotals()().grand_total;
+            var baseUrl = plugPlatFormConfig.payment.plugccform.base_url;
             if (quote.billingAddress() &&
                 typeof quote.billingAddress() != "undefined" &&
                 quote.billingAddress().vatId === ""
             ) {
-                quote.billingAddress().vatId = platFormConfig.customerData.taxvat
+                quote.billingAddress().vatId = plugPlatFormConfig.customerData.taxvat
             }
-            platFormConfig.base_url = baseUrl;
-            platFormConfig.moduleUrls.installments = baseUrl + installmentsUrl;
-            platFormConfig.moduleUrls.creditCardTokenUrl = baseUrl + creditCardTokenUrl;
-            platFormConfig.addresses = {
+            plugPlatFormConfig.base_url = baseUrl;
+            plugPlatFormConfig.plugModuleUrls.installments = baseUrl + installmentsAction();
+            plugPlatFormConfig.plugModuleUrls.creditCardTokenUrl = baseUrl + creditCardTokenAction();
+            plugPlatFormConfig.addresses = {
                 billingAddress: quote.billingAddress()
             };
-            platFormConfig.loader = fullScreenLoader;
+            plugPlatFormConfig.loader = fullScreenLoader;
 
             /** @fixme Update total should be moved to platformFormBinging **/
-            platFormConfig.updateTotals = quote;
-            window.PlugCore.platFormConfig = platFormConfig;
+            plugPlatFormConfig.updateTotals = quote;
+
+            window.PlugCore.plugPlatFormConfig = plugPlatFormConfig;
             window.PlugCore.initPaymentMethod(
                 this.getModel(),
-                platFormConfig,
+                plugPlatFormConfig,
                 cardNumberValidator
             );
         },
@@ -90,7 +88,7 @@ define([
         },
 
         getKey : function() {
-            return window.checkoutConfig.payment.ccform.pk_token;
+            return window.checkoutConfig.payment.plugccform.pk_token;
         },
 
         /**
@@ -98,7 +96,7 @@ define([
          */
         beforeplaceOrder: function(data, event){
             var _self = this;
-            window.PlugCore.platFormConfig.addresses.billingAddress = quote.billingAddress();
+            window.PlugCore.plugPlatFormConfig.addresses.billingAddress = quote.billingAddress();
             var PlugPlatformPlaceOrder = {
                 obj : _self,
                 data: data,
@@ -116,8 +114,8 @@ define([
         selectPaymentMethod: function() {
             var data = this.getData();
             if (data === undefined) {
-                var platFormConfig = window.PlugCore.platFormConfig;
-                window.PlugCore.init(this.getModel(), platFormConfig, cardNumberValidator);
+                plugPlatFormConfig = window.PlugCore.plugPlatFormConfig;
+                window.PlugCore.init(this.getModel(), plugPlatFormConfig, cardNumberValidator);
             }
             selectPaymentMethodAction(this.getData());
             checkoutData.setSelectedPaymentMethod(this.item.method);
@@ -144,7 +142,7 @@ define([
             total.tax_amount = parseFloat(newTax);
             total.base_tax_amount = parseFloat(newTax);
             this.oldInstallmentTax = newTax;
-            window.checkoutConfig.payment.ccform.installments.value = newTax;
+            window.checkoutConfig.payment.plugccform.installments.value = newTax;
             quote.setTotals(total);
         },
     })

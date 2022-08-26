@@ -5,7 +5,7 @@ define([
 ], function ($, storage, urlBuilder) {
     return function (dataJson, successCallback, failCallback) {
         var self = this,
-            serviceUrl = 'https://api.plug.com/core/v1/tokens?appId=' + window.checkoutConfig.payment.ccform.pk_token;
+            serviceUrl = 'https://api.plug.com/core/v1/tokens?appId=' + window.checkoutConfig.payment.plugccform.pk_token;
         var getAPIData = function(url, data, success, fail) {
             var xhr = new XMLHttpRequest();
             xhr.open('POST', url);
