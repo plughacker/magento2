@@ -1,7 +1,7 @@
-var PlugCreditCardModel = function (formObject, clientId, platformConfig) {
+var PlugCreditCardModel = function (formObject, clientId, plugPlatformConfig) {
     this.formObject = formObject;
     this.clientId = clientId;
-    this.platformConfig = platformConfig;
+    this.plugPlatformConfig = plugPlatformConfig;
     this.errors = [];
 };
 
@@ -51,7 +51,7 @@ PlugCreditCardModel.prototype.validate = function () {
 
 PlugCreditCardModel.prototype.getCreditCardToken = function (success, error) {
     var modelToken = new PlugCreditCardToken(this.formObject);
-    modelToken.getToken(this.platformConfig.urls.creditCardTokenUrl)
+    modelToken.getToken(this.plugPlatformConfig.urls.creditCardTokenUrl)
         .done(success)
         .fail(error);
 };

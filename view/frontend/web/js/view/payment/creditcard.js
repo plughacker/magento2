@@ -118,8 +118,8 @@ define([
          * @returns {Boolean}
          */
         getIcons: function (type) {
-            /*return window.checkoutConfig.payment.ccform.icons.hasOwnProperty(type) ?
-            window.checkoutConfig.payment.ccform.icons[type]
+            /*return window.checkoutConfig.payment.plugccform.icons.hasOwnProperty(type) ?
+            window.checkoutConfig.payment.plugccform.icons[type]
             : false;*/
         },
         getAmountText: function () {

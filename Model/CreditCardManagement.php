@@ -42,11 +42,16 @@ class CreditCardManagement implements CreditCardManagementInterface
         $this->_curl->addHeader("X-Client-Id", $clientId);
         $this->_curl->addHeader("X-Api-Key", $secretKey);
 
+        $cardExpirationDate = $creditCard->getCardExpirationDate();
+        $cardExpirationDateArray = explode('/', $cardExpirationDate);
+        $cardExpirationDateArray[0] = str_pad($cardExpirationDateArray[0], 2, '0', STR_PAD_LEFT);
+        $cardExpirationDate = implode('/', $cardExpirationDateArray);
         $_creditCard = [];
         $_creditCard['cardHolderName'] = $creditCard->getCardHolderName();
         $_creditCard['cardNumber'] = $creditCard->getCardNumber();
-        $_creditCard['cardExpirationDate'] = '12/2026'; //$creditCard->getCardExpirationDate();
+        $_creditCard['cardExpirationDate'] = $cardExpirationDate;
         $_creditCard['cardCvv'] = $creditCard->getCardCvv();
+
         $params = json_encode($_creditCard);
         $this->_curl->post($apiBaseUrl . '/v1/tokens', $params);
         echo $this->_curl->getBody(); die;

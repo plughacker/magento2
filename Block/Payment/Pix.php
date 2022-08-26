@@ -71,9 +71,8 @@ class Pix extends Template
 
         $lastTransId = $info->getLastTransId();
         $orderId = substr($lastTransId, 0, 36);
-
         Magento2CoreSetup::bootstrap();
-        $orderService= new \PlugHacker\PlugCore\Payment\Services\OrderService();
+        $orderService = new \PlugHacker\PlugCore\Payment\Services\OrderService();
         return $orderService->getPixQrCodeInfoFromOrder(new OrderId($orderId));
     }
 }

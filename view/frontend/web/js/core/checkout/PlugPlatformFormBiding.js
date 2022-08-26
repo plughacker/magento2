@@ -1,51 +1,51 @@
 var PlugFormObject = {};
 var PlugPlatformConfig = {};
 
-PlugPlatformConfig.bind = function (platformConfig) {
-    grandTotal = parseFloat(platformConfig.grand_total);
+PlugPlatformConfig.bind = function (plugPlatformConfig) {
+    grandTotal = parseFloat(plugPlatformConfig.grand_total);
 
-    clientId = platformConfig.payment.ccform.pk_token;
+    clientId = plugPlatformConfig.payment.plugccform.pk_token;
 
     urls = {
-        base: platformConfig.base_url,
-        installments : platformConfig.moduleUrls.installments,
-        creditCardTokenUrl : platformConfig.moduleUrls.creditCardTokenUrl
+        base: plugPlatformConfig.base_url,
+        installments : plugPlatformConfig.plugModuleUrls.installments,
+        creditCardTokenUrl : plugPlatformConfig.plugModuleUrls.creditCardTokenUrl
     };
 
     currency = {
-        code : platformConfig.quoteData.base_currency_code,
-        decimalSeparator : platformConfig.basePriceFormat.decimalSymbol,
-        precision : platformConfig.basePriceFormat.precision
+        code : plugPlatformConfig.quoteData.base_currency_code,
+        decimalSeparator : plugPlatformConfig.basePriceFormat.decimalSymbol,
+        precision : plugPlatformConfig.basePriceFormat.precision
     };
 
     text = {
-        months: platformConfig.payment.ccform.months,
-        years: platformConfig.payment.ccform.years
+        months: plugPlatformConfig.payment.ccform.months,
+        years: plugPlatformConfig.payment.ccform.years
     }
 
-    avaliableBrands = this.getAvaliableBrands(platformConfig);
-    savedAllCards = this.getSavedCreditCards(platformConfig);
+    avaliableBrands = this.getAvaliableBrands(plugPlatformConfig);
+    savedAllCards = this.getSavedCreditCards(plugPlatformConfig);
 
     loader = {
-        start: platformConfig.loader.startLoader,
-        stop: platformConfig.loader.stopLoader
+        start: plugPlatformConfig.loader.startLoader,
+        stop: plugPlatformConfig.loader.stopLoader
     };
-    totals = platformConfig.totalsData;
+    totals = plugPlatformConfig.totalsData;
 
     var config = {
         avaliableBrands: avaliableBrands,
-        orderAmount : grandTotal.toFixed(platformConfig.basePriceFormat.precision),
+        orderAmount : grandTotal.toFixed(plugPlatformConfig.basePriceFormat.precision),
         urls: urls,
         currency : currency,
         text: text,
         clientId: clientId,
         totals: totals,
         loader: loader,
-        addresses: platformConfig.addresses,
-        updateTotals: platformConfig.updateTotals,
+        addresses: plugPlatformConfig.addresses,
+        updateTotals: plugPlatformConfig.updateTotals,
         savedAllCards: savedAllCards,
-        region_states: platformConfig.region_states,
-        isMultibuyerEnabled: platformConfig.is_multi_buyer_enabled
+        region_states: plugPlatformConfig.region_states,
+        isMultibuyerEnabled: plugPlatformConfig.is_multi_buyer_enabled
     };
 
     this.PlugPlatformConfig = config;
@@ -69,7 +69,7 @@ PlugPlatformConfig.getBrands = function (data, paymentMethodBrands) {
         var brands = Object.keys(paymentMethodBrands);
 
         for (var i = 0, len = brands.length; i < len; i++) {
-            url = data.payment.ccform.icons[brands[i]].url
+            url = data.payment.plugccform.icons[brands[i]].url
             fixArray = [];
             imageUrl = fixArray.concat(url);
 
@@ -241,14 +241,14 @@ PlugFormObject.boletoInit = function (isMultibuyerEnabled) {
     return this.PlugFormObject;
 }
 
-PlugPlatformConfig.getSavedCreditCards = function (platFormConfig) {
+PlugPlatformConfig.getSavedCreditCards = function (plugPlatFormConfig) {
     var creditCard = null;
 
     if (
-        platFormConfig.payment.plug_creditcard.enabled_saved_cards &&
-        typeof(platFormConfig.payment.plug_creditcard.cards != "undefined")
+        plugPlatFormConfig.payment.plug_creditcard.enabled_saved_cards &&
+        typeof(plugPlatFormConfig.payment.plug_creditcard.cards != "undefined")
     ) {
-        creditCard = platFormConfig.payment.plug_creditcard.cards;
+        creditCard = plugPlatFormConfig.payment.plug_creditcard.cards;
     }
 
     return {

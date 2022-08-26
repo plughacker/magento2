@@ -84,11 +84,15 @@ class Magento2PlatformInvoiceDecorator extends AbstractInvoiceDecorator implemen
         );
         $transactionSave->save();
 
-        $objectManager = ObjectManager::getInstance();
-        $invoiceSender = $objectManager->get(InvoiceSender::class);
-        $logService->info("Sending invoice #{$this->getIncrementId()}");
-        $invoiceSender->send($this->platformInvoice);
-        $logService->info("Invoice sent #{$this->getIncrementId()}");
+        $config = ObjectManager::getInstance()->get('Magento\Framework\App\Config\ScopeConfigInterface');
+        $invoiceEmailEnabled = (bool)$config->getValue('plug/global/invoice_sendmail');
+        if ($invoiceEmailEnabled) {
+            $objectManager = ObjectManager::getInstance();
+            $invoiceSender = $objectManager->get(InvoiceSender::class);
+            $logService->info("Sending invoice #{$this->getIncrementId()}");
+            $invoiceSender->send($this->platformInvoice);
+            $logService->info("Invoice sent #{$this->getIncrementId()}");
+        }
     }
 
     public function setState(InvoiceState $state)

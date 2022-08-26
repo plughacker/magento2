@@ -189,8 +189,9 @@ class WebhookValidator extends ConfigValue
             $webhookPost->setVersion(1);
             $webhookPost->setStatus($status);
 
+            $_isTestMode = ($isTestMode == '_test') ? true : null;
             //Send through the APIService to plug
-            $apiService = new APIService();
+            $apiService = new APIService($clientId, $merchantId, $secretKey, $_isTestMode);
             try {
                 $response = $apiService->createWebhook($webhookPost);
                 if (!isset($response['id'])) {
@@ -203,9 +204,11 @@ class WebhookValidator extends ConfigValue
                 $this->_appConfig->reinit();
                 $this->_configWriter->saveConfig($webhookKeyPath, (string)$response['id'], 'default', 0);
             } catch (\Exception $e) {
-                throw new LocalizedException(
-                    __("The webhook request already configured or something went wrong.")
-                );
+                if ($e->getCode() != 409) {
+                    throw new LocalizedException(
+                        __("The webhook request already configured or something went wrong.")
+                    );
+                }
             }
         }
     }

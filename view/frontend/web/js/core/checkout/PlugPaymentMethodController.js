@@ -1,6 +1,6 @@
-var PlugPaymentMethodController = function (methodCode, platformConfig, cardNumberValidator) {
+var PlugPaymentMethodController = function (methodCode, plugPlatformConfig, cardNumberValidator) {
     this.methodCode = methodCode;
-    this.platformConfig = platformConfig;
+    this.plugPlatformConfig = plugPlatformConfig;
     this.cardNumberValidator = cardNumberValidator;
 };
 
@@ -19,8 +19,8 @@ PlugPaymentMethodController.prototype.formValidation = function () {
 };
 
 PlugPaymentMethodController.prototype.creditcardInit = function () {
-    this.platformConfig = PlugPlatformConfig.bind(this.platformConfig);
-    this.formObject = PlugFormObject.creditCardInit(this.platformConfig.isMultibuyerEnabled);
+    this.plugPlatformConfig = PlugPlatformConfig.bind(this.plugPlatformConfig);
+    this.formObject = PlugFormObject.creditCardInit(this.plugPlatformConfig.isMultibuyerEnabled);
 
     if (!this.formObject) {
         return;
@@ -28,8 +28,8 @@ PlugPaymentMethodController.prototype.creditcardInit = function () {
 
     this.model = new PlugCreditCardModel(
         this.formObject,
-        this.platformConfig.clientId,
-        this.platformConfig
+        this.plugPlatformConfig.clientId,
+        this.plugPlatformConfig
     );
 
     this.fillCardAmount(this.formObject, 1);
@@ -39,11 +39,11 @@ PlugPaymentMethodController.prototype.creditcardInit = function () {
     this.fillBrandList(this.formObject, 'plug_creditcard');
     this.fillInstallments(this.formObject);
 
-    if (!this.platformConfig.isMultibuyerEnabled) {
+    if (!this.plugPlatformConfig.isMultibuyerEnabled) {
         this.removeMultibuyerForm(this.formObject);
     }
 
-    if (this.platformConfig.isMultibuyerEnabled) {
+    if (this.plugPlatformConfig.isMultibuyerEnabled) {
         this.fillMultibuyerStateSelect(this.formObject);
         this.addShowMultibuyerListener(this.formObject);
     }
@@ -53,8 +53,8 @@ PlugPaymentMethodController.prototype.creditcardInit = function () {
 };
 
 PlugPaymentMethodController.prototype.pixInit = function () {
-    this.platformConfig = PlugPlatformConfig.bind(this.platformConfig);
-    this.formObject = PlugFormObject.pixInit(this.platformConfig.isMultibuyerEnabled);
+    this.plugPlatformConfig = PlugPlatformConfig.bind(this.plugPlatformConfig);
+    this.formObject = PlugFormObject.pixInit(this.plugPlatformConfig.isMultibuyerEnabled);
 
     if (!this.formObject) {
         return;
@@ -63,19 +63,19 @@ PlugPaymentMethodController.prototype.pixInit = function () {
     this.model = new PlugPixModel(this.formObject);
     this.hideCardAmount(this.formObject);
 
-    if (!this.platformConfig.isMultibuyerEnabled) {
+    if (!this.plugPlatformConfig.isMultibuyerEnabled) {
         this.removeMultibuyerForm(this.formObject);
     }
 
-    if (this.platformConfig.isMultibuyerEnabled) {
+    if (this.plugPlatformConfig.isMultibuyerEnabled) {
         this.fillMultibuyerStateSelect(this.formObject);
         this.addShowMultibuyerListener(this.formObject);
     }
 };
 
 PlugPaymentMethodController.prototype.boletoInit = function () {
-    this.platformConfig = PlugPlatformConfig.bind(this.platformConfig);
-    this.formObject = PlugFormObject.boletoInit(this.platformConfig.isMultibuyerEnabled);
+    this.plugPlatformConfig = PlugPlatformConfig.bind(this.plugPlatformConfig);
+    this.formObject = PlugFormObject.boletoInit(this.plugPlatformConfig.isMultibuyerEnabled);
 
     if (!this.formObject) {
         return;
@@ -84,11 +84,11 @@ PlugPaymentMethodController.prototype.boletoInit = function () {
     this.model = new PlugBoletoModel(this.formObject);
     this.hideCardAmount(this.formObject);
 
-    if (!this.platformConfig.isMultibuyerEnabled) {
+    if (!this.plugPlatformConfig.isMultibuyerEnabled) {
         this.removeMultibuyerForm(this.formObject);
     }
 
-    if (this.platformConfig.isMultibuyerEnabled) {
+    if (this.plugPlatformConfig.isMultibuyerEnabled) {
         this.fillMultibuyerStateSelect(this.formObject);
         this.addShowMultibuyerListener(this.formObject);
     }
@@ -132,7 +132,7 @@ PlugPaymentMethodController.prototype.removeSavedCards = function (formObject) {
 
 PlugPaymentMethodController.prototype.addListenerUpdateAmount = function (cardNumberValidator) {
     var observerMutation = new MutationObserver(function (mutationsList, observer) {
-        var initCreditCard = new PlugPaymentMethodController('creditcard', platFormConfig, cardNumberValidator);
+        var initCreditCard = new PlugPaymentMethodController('creditcard', plugPlatFormConfig, cardNumberValidator);
         initCreditCard.init();
     });
 
@@ -157,7 +157,7 @@ PlugPaymentMethodController.prototype.addInputAmountBalanceListener = function(f
 
     formObject.inputAmount.on('keyup', function(){
         element = jQuery(this);
-        var orginalValue = platFormConfig.updateTotals.getTotals()().grand_total
+        var orginalValue = plugPlatFormConfig.updateTotals.getTotals()().grand_total
         var orderAmount = (orginalValue).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
         orderAmount = orderAmount.replace(/[^0-9]/g, '');
         orderAmount = Number(orderAmount);
@@ -178,8 +178,8 @@ PlugPaymentMethodController.prototype.addInputAmountBalanceListener = function(f
         var formId = paymentMethodController.model.getFormIdInverted(id);
         var form = paymentMethodController.formObject[formId];
 
-        form.inputAmount.val(remaining.toString().replace('.', paymentMethodController.platformConfig.currency.decimalSeparator));
-        element.val(value.toString().replace('.', paymentMethodController.platformConfig.currency.decimalSeparator));
+        form.inputAmount.val(remaining.toString().replace('.', paymentMethodController.plugPlatformConfig.currency.decimalSeparator));
+        element.val(value.toString().replace('.', paymentMethodController.plugPlatformConfig.currency.decimalSeparator));
     });
 }
 
@@ -219,8 +219,8 @@ PlugPaymentMethodController.prototype.twoCardsTotal = function (paymentMethod) {
     var card1 = paymentMethod.formObject[0].creditCardInstallments.selector;
     var card2 = paymentMethod.formObject[1].creditCardInstallments.selector;
 
-    var totalCard1 = paymentMethod.formObject[0].inputAmount.val().replace(platformConfig.currency.decimalSeparator, ".");
-    var totalCard2 = paymentMethod.formObject[1].inputAmount.val().replace(platformConfig.currency.decimalSeparator, ".");
+    var totalCard1 = paymentMethod.formObject[0].inputAmount.val().replace(plugPlatformConfig.currency.decimalSeparator, ".");
+    var totalCard2 = paymentMethod.formObject[1].inputAmount.val().replace(plugPlatformConfig.currency.decimalSeparator, ".");
 
     var interestTotalCard1 = jQuery(card1).find(":selected").attr("interest");
     var interestTotalCard2 = jQuery(card2).find(":selected").attr("interest");
@@ -288,7 +288,7 @@ PlugPaymentMethodController.prototype.addSavedCreditCardsListener = function(for
 
 PlugPaymentMethodController.prototype.placeOrder = function (placeOrderObject) {
     var customerValidator = new PlugCustomerValidator(
-        this.platformConfig.addresses.billingAddress
+        this.plugPlatformConfig.addresses.billingAddress
     );
     customerValidator.validate();
     var errors = customerValidator.getErrors();
@@ -306,7 +306,7 @@ PlugPaymentMethodController.prototype.updateTotal = function(interest, grandTota
     var paymentMethodController = this;
 
     /**@fixme Move gettotals() to PlatformFormBiding */
-    var total = paymentMethodController.platformConfig.updateTotals.getTotals()();
+    var total = paymentMethodController.plugPlatformConfig.updateTotals.getTotals()();
     interest = (parseInt((interest * 100).toFixed(2))) / 100;
     if (interest < 0) {
         interest = 0;
@@ -326,7 +326,7 @@ PlugPaymentMethodController.prototype.updateTotal = function(interest, grandTota
             total.total_segments[i].value = interest;
         }
     }
-    paymentMethodController.platformConfig.updateTotals.setTotals(total);
+    paymentMethodController.plugPlatformConfig.updateTotals.setTotals(total);
 };
 
 PlugPaymentMethodController.prototype.sumInterests = function(interest, selectName) {
@@ -383,7 +383,7 @@ PlugPaymentMethodController.prototype.fillInstallments = function (form) {
 
     form.creditCardInstallments.prop('disabled', true);
     var installmentsUrl =
-        this.platformConfig.urls.installments + '/' +
+        this.plugPlatformConfig.urls.installments + '/' +
         selectedBrand + '/' +
         amount;
 
@@ -406,20 +406,20 @@ PlugPaymentMethodController.prototype.fillBrandList = function (formObject, meth
     }
     var formHandler = new PlugFormHandler();
     formHandler.fillBrandList(
-        this.platformConfig.avaliableBrands[method],
+        this.plugPlatformConfig.avaliableBrands[method],
         formObject
     );
 };
 
 PlugPaymentMethodController.prototype.fillCardAmount = function (formObject, count, card = null) {
-    var orderAmount = platFormConfig.updateTotals.getTotals()().grand_total / count;
-    var amount = orderAmount.toFixed(this.platformConfig.currency.precision);
+    var orderAmount = plugPlatFormConfig.updateTotals.getTotals()().grand_total / count;
+    var amount = orderAmount.toFixed(this.plugPlatformConfig.currency.precision);
     var separator = ".";
-    amount = amount.replace(separator, this.platformConfig.currency.decimalSeparator);
+    amount = amount.replace(separator, this.plugPlatformConfig.currency.decimalSeparator);
     if (card === 1) {
-        var orderAmountOriginal =  amount.replace(this.platformConfig.currency.decimalSeparator, ".");
-        var amountBalance = (platFormConfig.updateTotals.getTotals()().grand_total - orderAmountOriginal).toFixed(2);
-        formObject.inputAmount.val(amountBalance.replace(".", this.platformConfig.currency.decimalSeparator));
+        var orderAmountOriginal =  amount.replace(this.plugPlatformConfig.currency.decimalSeparator, ".");
+        var amountBalance = (plugPlatFormConfig.updateTotals.getTotals()().grand_total - orderAmountOriginal).toFixed(2);
+        formObject.inputAmount.val(amountBalance.replace(".", this.plugPlatformConfig.currency.decimalSeparator));
         return;
     }
     formObject.inputAmount.val(amount);
@@ -433,7 +433,7 @@ PlugPaymentMethodController.prototype.setBin = function (binObj, creditCardNumbe
     }
 
     var isNewBrand = bin.validate(cardNumber);
-    result = cardNumberValidator(cardNumber);
+    result = cardNumberValidator(creditCardNumberElement.val());
     if (!result.isPotentiallyValid && !result.isValid) {
         return false;
     }
@@ -475,7 +475,7 @@ PlugPaymentMethodController.prototype.hideCardAmount = function (formObject) {
 };
 
 PlugPaymentMethodController.prototype.fillFormText = function (formObject, method = null) {
-    formText = this.platformConfig.text;
+    formText = this.plugPlatformConfig.text;
     var creditCardExpYear = formObject.creditCardExpYear.val();
     var creditCardExpMonth = formObject.creditCardExpMonth.val()
     formHandler = new PlugFormHandler();
@@ -485,10 +485,10 @@ PlugPaymentMethodController.prototype.fillFormText = function (formObject, metho
 };
 
 PlugPaymentMethodController.prototype.fillSavedCreditCardsSelect = function (formObject) {
-    platformConfig = this.platformConfig;
+    plugPlatformConfig = this.plugPlatformConfig;
     formHandler = new PlugFormHandler();
     formHandler.init(formObject);
-    formHandler.fillSavedCreditCardsSelect(platformConfig, formObject);
+    formHandler.fillSavedCreditCardsSelect(plugPlatformConfig, formObject);
     if (typeof formObject.savedCreditCardSelect.selector != 'undefined') {
         selector = formObject.savedCreditCardSelect.selector;
         var brand = jQuery(selector + ' option:selected').attr('brand');
@@ -507,10 +507,10 @@ PlugPaymentMethodController.prototype.fillSavedCreditCardsSelect = function (for
 };
 
 PlugPaymentMethodController.prototype.fillMultibuyerStateSelect = function (formObject) {
-    platformConfig = this.platformConfig;
+    plugPlatformConfig = this.plugPlatformConfig;
     formHandler = new PlugFormHandler();
     formHandler.init(formObject);
-    formHandler.fillMultibuyerStateSelect(platformConfig, formObject);
+    formHandler.fillMultibuyerStateSelect(plugPlatformConfig, formObject);
 };
 
 PlugPaymentMethodController.prototype.removeMultibuyerForm = function (formObject) {
@@ -526,10 +526,10 @@ PlugPaymentMethodController.prototype.addShowMultibuyerListener = function(formO
     });
 }
 
-PlugPaymentMethodController.prototype.isTotalOnAmountInputs = function(formObject, platformConfig) {
-    var orderTotal = platformConfig.updateTotals.getTotals()().grand_total;
-    var card1 = formObject[0].inputAmount.val().replace(platformConfig.currency.decimalSeparator, ".");
-    var card2 = formObject[1].inputAmount.val().replace(platformConfig.currency.decimalSeparator, ".");
+PlugPaymentMethodController.prototype.isTotalOnAmountInputs = function(formObject, plugPlatformConfig) {
+    var orderTotal = plugPlatformConfig.updateTotals.getTotals()().grand_total;
+    var card1 = formObject[0].inputAmount.val().replace(plugPlatformConfig.currency.decimalSeparator, ".");
+    var card2 = formObject[1].inputAmount.val().replace(plugPlatformConfig.currency.decimalSeparator, ".");
     var totalInputs = (parseFloat(card1) + parseFloat(card2));
     return orderTotal === totalInputs;
 }

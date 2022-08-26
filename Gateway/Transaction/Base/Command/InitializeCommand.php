@@ -3,6 +3,7 @@
 namespace PlugHacker\PlugPagamentos\Gateway\Transaction\Base\Command;
 
 use Magento\Payment\Gateway\Helper\SubjectReader;
+use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Payment\Gateway\CommandInterface;
@@ -24,6 +25,20 @@ use PlugHacker\PlugPagamentos\Helper\RecurrenceProductHelper;
 class InitializeCommand implements CommandInterface
 {
     /**
+     * @var OrderRepositoryInterface
+     */
+    private $mageOrderRepository;
+
+    /**
+     * @param OrderRepositoryInterface $mageOrderRepository
+     */
+    public function __construct(
+        OrderRepositoryInterface $mageOrderRepository
+    ) {
+        $this->mageOrderRepository = $mageOrderRepository;
+    }
+
+    /**
      * @param array $commandSubject
      * @return $this
      */
@@ -39,6 +54,7 @@ class InitializeCommand implements CommandInterface
         }
         $orderResult = $this->doCoreDetour($payment);
         if ($orderResult !== false) {
+            $order = $payment->getOrder();
             $orderResult->loadByIncrementId(
                 $orderResult->getIncrementId()
             );
@@ -51,6 +67,11 @@ class InitializeCommand implements CommandInterface
                 OrderInterface::STATUS,
                 $orderResult->getStatus()
             );
+
+            $order->setState($orderResult->getState()->getState());
+            $order->setStatus($orderResult->getStatus());
+
+            $this->mageOrderRepository->save($order);
             return $this;
         }
 

@@ -103,5 +103,10 @@
 			<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
 			<config_path>plug/global/sendmail</config_path>
 		</field>
+        <field id="invoice_send_email" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="60" translate="label" type="select">
+            <label>Send invoice email</label>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <config_path>plug/global/invoice_sendmail</config_path>
+        </field>
 	</group>
 </include>

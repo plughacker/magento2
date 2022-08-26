@@ -35,9 +35,4 @@
         <observer name="cancel_order_at_plug_via_payment_refund"
                   instance="PlugHacker\PlugPagamentos\Observer\OrderCancelAfter" />
     </event>
-
-    <event name="controller_action_catalog_product_save_entity_after">
-        <observer name="update_product_plan"
-                  instance="PlugHacker\PlugPagamentos\Observer\UpdateProductPlanObserver" />
-    </event>
 </config>
