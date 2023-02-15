@@ -10,6 +10,19 @@
 
 declare(strict_types=1);
 
-use Magento\Framework\Component\ComponentRegistrar;
+namespace Malga\Payments\Gateway\Data;
 
-ComponentRegistrar::register(ComponentRegistrar::MODULE, 'Malga_Payments', __DIR__);
+use Magento\Payment\Gateway\Data\AddressAdapterInterface as MagentoAddressAdapterInterface;
+
+/**
+ * @api
+ */
+interface AddressAdapterInterface extends MagentoAddressAdapterInterface
+{
+    /**
+     * Gets the street values
+     *
+     * @return string[]|null
+     */
+    public function getStreet(): ?array;
+}

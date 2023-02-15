@@ -1,0 +1,14 @@
+<!--
+  ~ This file is part of Malga Payment Extension for Adobe Commerce / Magento Open Source Payment Extension. For the
+  ~ full copyright and license information please view the LICENSE.md file that was distributed with this source code.
+  ~
+  ~ @copyright 2023 Malga
+  ~ @author Malga Team <engineer@malga.io>
+  ~ @link https://docs.malga.io/ Documentation of Malga
+  -->
+
+<mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Payment:etc/error_mapping.xsd">
+    <message_list>
+        <message code="invalid_merchant" translate="true">The charge has been declined because merchant is not valid.</message>
+    </message_list>
+</mapping>

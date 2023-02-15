@@ -1,7 +1,16 @@
-<?xml version="1.0" ?>
-<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="checkout" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+<?xml version="1.0"?>
+<!--
+  ~ This file is part of Malga Payment Extension for Adobe Commerce / Magento Open Source Payment Extension. For the
+  ~ full copyright and license information please view the LICENSE.md file that was distributed with this source code.
+  ~
+  ~ @copyright 2023 Malga
+  ~ @author Malga Team <engineer@malga.io>
+  ~ @link https://docs.malga.io/ Documentation of Malga
+  -->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
-        <css src="PlugHacker_PlugPagamentos/css/plug_style.css" />
+        <css src="Malga_Payments::css/styles.css"/>
     </head>
     <body>
         <referenceBlock name="checkout.root">
@@ -17,19 +26,29 @@
                                             <item name="children" xsi:type="array">
                                                 <item name="payment" xsi:type="array">
                                                     <item name="children" xsi:type="array">
+                                                        <!-- @todo add recaptcha                                                    <item name="payments-list" xsi:type="array">-->
+                                                        <!--                                                        <item name="children" xsi:type="array">-->
+                                                        <!--                                                            <item name="braintree-recaptcha" xsi:type="array">-->
+                                                        <!--                                                                <item name="component" xsi:type="string">uiComponent</item>-->
+                                                        <!--                                                                <item name="displayArea" xsi:type="string">braintree-recaptcha</item>-->
+                                                        <!--                                                                <item name="children" xsi:type="array">-->
+                                                        <!--                                                                    <item name="recaptcha_braintree" xsi:type="array">-->
+                                                        <!--                                                                        <item name="component" xsi:type="string">PayPal_Braintree/js/reCaptcha/reCaptcha</item>-->
+                                                        <!--                                                                        <item name="displayArea" xsi:type="string">braintree-recaptcha</item>-->
+                                                        <!--                                                                        <item name="configSource" xsi:type="string">checkoutConfig</item>-->
+                                                        <!--                                                                        <item name="reCaptchaId" xsi:type="string">recaptcha-checkout-braintree</item>-->
+                                                        <!--                                                                    </item>-->
+                                                        <!--                                                                </item>-->
+                                                        <!--                                                            </item>-->
+                                                        <!--                                                        </item>-->
+                                                        <!--                                                    </item>-->
                                                         <item name="renders" xsi:type="array">
                                                             <!-- merge payment method renders here -->
                                                             <item name="children" xsi:type="array">
-                                                                <item name="plug_payment" xsi:type="array">
-                                                                    <item name="component" xsi:type="string">PlugHacker_PlugPagamentos/js/view/payment/payments</item>
+                                                                <item name="malga" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">Malga_Payments/js/view/payment/malga</item>
                                                                     <item name="methods" xsi:type="array">
-                                                                        <item name="plug_pix" xsi:type="array">
-                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
-                                                                        </item>
-                                                                        <item name="plug_creditcard" xsi:type="array">
-                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
-                                                                        </item>
-                                                                        <item name="plug_billet" xsi:type="array">
+                                                                        <item name="malga_pix" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>
                                                                     </item>

@@ -1,331 +1,147 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="PlugHacker\PlugPagamentos\Api\CreditCardManagementInterface" type="PlugHacker\PlugPagamentos\Model\CreditCardManagement" />
-    <preference for="PlugHacker\PlugPagamentos\Api\Data\CreditCardInterface" type="PlugHacker\PlugPagamentos\Model\CreditCard" />
-    <preference for="PlugHacker\PlugPagamentos\Api\InstallmentsManagementInterface" type="PlugHacker\PlugPagamentos\Model\InstallmentsManagement" />
-    <preference for="PlugHacker\PlugPagamentos\Api\Data\InstallmentInterface" type="PlugHacker\PlugPagamentos\Model\Installment" />
-    <preference for="PlugHacker\PlugPagamentos\Api\CreditCardRequestDataProviderInterface" type="PlugHacker\PlugPagamentos\Gateway\Transaction\CreditCard\ResourceGateway\Create\RequestDataProvider" />
-    <preference for="PlugHacker\PlugPagamentos\Api\BilletRequestDataProviderInterface" type="PlugHacker\PlugPagamentos\Gateway\Transaction\Billet\ResourceGateway\Create\RequestDataProvider" />
-    <preference for="PlugHacker\PlugPagamentos\Api\CartItemRequestDataProviderInterface" type="PlugHacker\PlugPagamentos\Gateway\Transaction\Base\ResourceGateway\CartItemRequestDataProvider" />
-    <preference for="PlugHacker\PlugPagamentos\Model\Installments\Config\ConfigInterface" type="PlugHacker\PlugPagamentos\Model\Installments\Config\Config" />
-    <preference for="PlugHacker\PlugPagamentos\Model\Installments\Config\ConfigByBrandInterface" type="PlugHacker\PlugPagamentos\Model\Installments\Config\ConfigByBrand" />
-    <preference for="PlugHacker\PlugPagamentos\Gateway\Transaction\CreditCard\Config\ConfigInterface" type="PlugHacker\PlugPagamentos\Gateway\Transaction\CreditCard\Config\Config" />
-    <preference for="PlugHacker\PlugPagamentos\Gateway\Transaction\Billet\Config\ConfigInterface" type="PlugHacker\PlugPagamentos\Gateway\Transaction\Billet\Config\Config" />
-    <preference for="PlugHacker\PlugPagamentos\Gateway\Transaction\Base\Config\ConfigInterface" type="PlugHacker\PlugPagamentos\Gateway\Transaction\Base\Config\Config" />
-    <preference for="PlugHacker\PlugPagamentos\Helper\CustomerAddressInterface" type="PlugHacker\PlugPagamentos\Helper\CustomerAddress" />
-    <preference for="PlugHacker\PlugPagamentos\Api\WebhookManagementInterface" type="PlugHacker\PlugPagamentos\Model\WebhookManagement"/>
-    <preference for="PlugHacker\PlugPagamentos\Api\InstallmentsByBrandManagementInterface" type="PlugHacker\PlugPagamentos\Model\InstallmentsByBrandManagement"/>
-    <preference for="PlugHacker\PlugPagamentos\Api\InstallmentsByBrandAndAmountManagementInterface" type="PlugHacker\PlugPagamentos\Model\InstallmentsByBrandAndAmountManagement"/>
-    <preference for="PlugHacker\PlugPagamentos\Api\CustomerCreateManagementInterface" type="PlugHacker\PlugPagamentos\Model\CustomerCreateManagement" />
+<!--
+  ~ This file is part of Malga Payment Extension for Adobe Commerce / Magento Open Source Payment Extension. For the
+  ~ full copyright and license information please view the LICENSE.md file that was distributed with this source code.
+  ~
+  ~ @copyright 2023 Malga
+  ~ @author Malga Team <engineer@malga.io>
+  ~ @link https://docs.malga.io/ Documentation of Malga
+  -->
 
-    <preference for="PlugHacker\PlugPagamentos\Api\MaintenanceInterface"
-                type="PlugHacker\PlugPagamentos\Model\Maintenance"/>
-
-    <preference for="PlugHacker\PlugPagamentos\Api\ProductSubscriptionInterface"
-                type="PlugHacker\PlugPagamentos\Model\Api\ProductsSubscription"/>
-
-    <preference for="PlugHacker\PlugPagamentos\Api\ProductPlanInterface"
-                type="PlugHacker\PlugPagamentos\Model\Api\ProductsPlan"/>
-
-    <preference for="PlugHacker\PlugPagamentos\Api\ChargeApiInterface"
-                type="PlugHacker\PlugPagamentos\Model\Api\Charge"/>
-
-    <preference for="PlugHacker\PlugPagamentos\Api\BulkApiInterface"
-                type="PlugHacker\PlugPagamentos\Model\Api\Bulk"/>
-
-    <type name="PlugHacker\PlugPagamentos\Model\InstallmentsByBrandManagement">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Magento\Payment\Gateway\Data\Order\OrderAdapter" type="Malga\Payments\Gateway\Data\Order\OrderAdapter"/>
+    <preference for="Malga\Payments\Gateway\Data\AddressAdapterInterface" type="Malga\Payments\Gateway\Data\Order\AddressAdapter"/>
+    <virtualType name="MalgaPaymentsConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="builder" xsi:type="object">PlugHacker\PlugPagamentos\Model\Installments\BuilderByBrand</argument>
-        </arguments>
-    </type>
-
-    <type name="Magento\Checkout\Model\Cart">
-        <plugin name="prevent_add_to" type="PlugHacker\PlugPagamentos\Model\Cart\CartConflict"/>
-    </type>
-
-    <type name="PlugHacker\PlugPagamentos\Model\InstallmentsByBrandAndAmountManagement">
-        <arguments>
-            <argument name="builder" xsi:type="object">PlugHacker\PlugPagamentos\Model\Installments\BuilderByBrandAndAmount</argument>
-        </arguments>
-    </type>
-
-    <!-- Charges Plug -->
-    <preference for="PlugHacker\PlugPagamentos\Api\ChargesRepositoryInterface" type="PlugHacker\PlugPagamentos\Model\ChargesRepository"/>
-    <preference for="PlugHacker\PlugPagamentos\Api\Data\ChargesInterface" type="PlugHacker\PlugPagamentos\Model\Charges"/>
-    <preference for="PlugHacker\PlugPagamentos\Api\Data\ChargesSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
-    <virtualType name="PlugHacker\PlugPagamentos\Model\ResourceModel\Charges\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
-        <arguments>
-            <argument name="mainTable" xsi:type="string">plug_module_core_charge</argument>
-            <argument name="resourceModel" xsi:type="string">PlugHacker\PlugPagamentos\Model\ResourceModel\Charges\Collection</argument>
+            <argument name="methodCode" xsi:type="string">malga</argument>
         </arguments>
     </virtualType>
-    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+    <type name="Malga\Payments\Gateway\Http\Client\ClientAdapter">
         <arguments>
-            <argument name="collections" xsi:type="array">
-                <item name="plug_charges_grid_data_source" xsi:type="string">PlugHacker\PlugPagamentos\Model\ResourceModel\Charges\Grid\Collection</item>
-            </argument>
+            <argument name="config" xsi:type="object">MalgaPaymentsConfig</argument>
         </arguments>
     </type>
-    <!-- Final Charges Plug -->
-
-    <!-- Cards Plug -->
-    <preference for="PlugHacker\PlugPagamentos\Api\CardsRepositoryInterface" type="PlugHacker\PlugPagamentos\Model\CardsRepository"/>
-    <preference for="PlugHacker\PlugPagamentos\Api\Data\CardsInterface" type="PlugHacker\PlugPagamentos\Model\Cards"/>
-    <preference for="PlugHacker\PlugPagamentos\Api\Data\CardsSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
-    <virtualType name="PlugHacker\PlugPagamentos\Model\ResourceModel\Cards\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+    <virtualType name="MalgaPixPaymentsConfig" type="Magento\Payment\Gateway\Config\Config">
         <arguments>
-            <argument name="mainTable" xsi:type="string">plug_cards</argument>
-            <argument name="resourceModel" xsi:type="string">PlugHacker\PlugPagamentos\Model\ResourceModel\Cards\Collection</argument>
+            <argument name="methodCode" xsi:type="const">Malga\Payments\Model\Ui\Pix\ConfigProvider::CODE</argument>
         </arguments>
     </virtualType>
-    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+    <type name="Malga\Payments\Model\Ui\Pix\ConfigProvider">
         <arguments>
-            <argument name="collections" xsi:type="array">
-                <item name="plug_cards_grid_data_source" xsi:type="string">PlugHacker\PlugPagamentos\Model\ResourceModel\Cards\Grid\Collection</item>
-            </argument>
+            <argument name="config" xsi:type="object">MalgaPixPaymentsConfig</argument>
         </arguments>
     </type>
-
-    <!-- Final Cards Plug -->
-
-    <!-- Invoices -->
-    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+    <!--    <virtualType name="SamplePaymentGatewayLogger" type="Magento\Payment\Model\Method\Logger">-->
+    <!--        <arguments>-->
+    <!--            <argument name="config" xsi:type="object">SamplePaymentGatewayConfig</argument>-->
+    <!--        </arguments>-->
+    <!--    </virtualType>-->
+    <virtualType name="MalgaPixConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
         <arguments>
-            <argument name="collections" xsi:type="array">
-                <item name="plug_invoices_listing_data_source" xsi:type="string">PlugHacker\PlugPagamentos\Model\ResourceModel\Invoices\Grid\Collection</item>
-            </argument>
-        </arguments>
-    </type>
-    <virtualType name="PlugHacker\PlugPagamentos\Model\ResourceModel\Invoices\Grid\Collection" type="PlugHacker\PlugPagamentos\Model\ResourceModel\Invoices\Collection">
-        <arguments>
-            <argument name="mainTable" xsi:type="string">plug_module_core_recurrence_charge</argument>
-            <argument name="resourceModel" xsi:type="string">PlugHacker\PlugPagamentos\Model\ResourceModel\Invoices</argument>
+            <argument name="configInterface" xsi:type="object">MalgaPixPaymentsConfig</argument>
         </arguments>
     </virtualType>
-    <type name="PlugHacker\PlugPagamentos\Model\InstallmentsManagement">
-        <arguments>
-            <argument name="builder" xsi:type="object">PlugHacker\PlugPagamentos\Model\Installments\Builder</argument>
-        </arguments>
-    </type>
-    <type name="PlugHacker\PlugPagamentos\Model\InstallmentsManagementByBrand">
-        <arguments>
-            <argument name="builder" xsi:type="object">PlugHacker\PlugPagamentos\Model\Installments\BuilderByBrand</argument>
-        </arguments>
-    </type>
-    <type name="PlugHacker\PlugPagamentos\Model\Installments\Builder">
-        <arguments>
-            <argument name="config" xsi:type="object">PlugCreditCardInstallment</argument>
-        </arguments>
-    </type>
-    <type name="PlugHacker\PlugPagamentos\Model\Installments\BuilderByBrand">
-        <arguments>
-            <argument name="config" xsi:type="object">PlugCreditCardInstallmentByBrand</argument>
-        </arguments>
-    </type>
-    <type name="PlugHacker\PlugPagamentos\Model\Installments\BuilderByBrandAndAmount">
-        <arguments>
-            <argument name="config" xsi:type="object">PlugCreditCardInstallmentByBrandAndAmount</argument>
-        </arguments>
-    </type>
 
-    <!-- Pix -->
-    <virtualType name="PlugPixRemoteMethodAdapter" type="Magento\Payment\Model\Method\Adapter">
-        <arguments>
-            <argument name="code" xsi:type="const">PlugHacker\PlugPagamentos\Model\Ui\Pix\ConfigProvider::CODE</argument>
-            <argument name="valueHandlerPool" xsi:type="object">PlugPixValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">PlugPixCommandPool</argument>
-            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">PlugHacker\PlugPagamentos\Block\Payment\Info\Pix</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="PlugPixValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="MalgaPixValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">PlugPixConfigValueHandler</item>
+                <item name="default" xsi:type="string">MalgaPixConfigValueHandler</item>
+                <item name="can_void" xsi:type="string">Malga\Payments\Gateway\Config\CanVoidHandler</item>
+                <item name="can_cancel" xsi:type="string">Malga\Payments\Gateway\Config\CanVoidHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="PlugPixConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="MalgaPixValidatorPool" type="Magento\Payment\Gateway\Validator\ValidatorPool">
         <arguments>
-            <argument name="configInterface" xsi:type="object">PlugPixConfig</argument>
+            <argument name="validators" xsi:type="array">
+                <!--                <item name="country" xsi:type="string">Magento\Payment\Gateway\Validator\CountryValidator</item>-->
+            </argument>
         </arguments>
     </virtualType>
-    <virtualType name="PlugPixConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="MalgaPixFacade" type="Magento\Payment\Model\Method\Adapter">
         <arguments>
-            <argument name="methodCode" xsi:type="const">PlugHacker\PlugPagamentos\Model\Ui\Pix\ConfigProvider::CODE</argument>
+            <argument name="code" xsi:type="const">Malga\Payments\Model\Ui\Pix\ConfigProvider::CODE</argument>
+            <argument name="formBlockType" xsi:type="string">Malga\Payments\Block\Pix\Form</argument>
+            <argument name="infoBlockType" xsi:type="string">Malga\Payments\Block\Pix\Info</argument>
+            <argument name="valueHandlerPool" xsi:type="object">MalgaPixValueHandlerPool</argument>
+            <argument name="validatorPool" xsi:type="object">MalgaPixValidatorPool</argument>
+            <argument name="commandPool" xsi:type="object">MalgaPixCommandPool</argument>
         </arguments>
     </virtualType>
-    <virtualType name="PlugPixCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
+
+
+    <virtualType name="MalgaPixCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
         <arguments>
             <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PlugHacker\PlugPagamentos\Gateway\Transaction\Base\Command\InitializeCommand</item>
-                <item name="authorize" xsi:type="string">PlugBilletAuthorizeCommand</item>
+                <item name="authorize" xsi:type="string">MalgaPixAuthorizeCommand</item>
+                <item name="sale" xsi:type="string">MalgaPixSaleCommand</item>
+                <item name="capture" xsi:type="string">MalgaPixCaptureStrategyCommand</item>
+<!--                <item name="refund" xsi:type="string">MalgaPixCaptureStrategyCommand</item>-->
+<!--                <item name="void" xsi:type="string">MalgaPixCaptureStrategyCommand</item>-->
             </argument>
         </arguments>
     </virtualType>
-    <!-- Pix -->
-
-    <!-- Billet -->
-    <virtualType name="PlugBilletRemoteMethodAdapter" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="MalgaPixAuthorizeCommand" type="Malga\Payments\Gateway\Command\GatewayCommand">
         <arguments>
-            <argument name="code" xsi:type="const">PlugHacker\PlugPagamentos\Model\Ui\Billet\ConfigProvider::CODE</argument>
-            <argument name="valueHandlerPool" xsi:type="object">PlugBilletValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">PlugBilletCommandPool</argument>
-            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">PlugHacker\PlugPagamentos\Block\Payment\Info\Billet</argument>
+            <argument name="requestBuilder" xsi:type="object">MalgaPixAuthorizeRequest</argument>
+            <argument name="transferFactory" xsi:type="object">Malga\Payments\Gateway\Http\TransferFactory</argument>
+            <argument name="client" xsi:type="object">Malga\Payments\Gateway\Http\Client\ClientAdapter</argument>
+            <argument name="handler" xsi:type="object">MalgaPixAuthorizationHandler</argument>
+            <argument name="validator" xsi:type="object">Malga\Payments\Gateway\Validator\ResponseValidator</argument>
+            <argument name="errorMessageMapper" xsi:type="object">Malga\Payments\Gateway\ErrorMapper\VirtualErrorMessageMapper</argument>
         </arguments>
     </virtualType>
-    <virtualType name="PlugBilletValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <virtualType name="MalgaPixAuthorizeRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="customer" xsi:type="string">Malga\Payments\Gateway\Request\CustomerDataBuilder</item>
+                <item name="payment" xsi:type="string">Malga\Payments\Gateway\Request\PaymentDataBuilder</item>
+                <!--                <item name="fraud" xsi:type="string">PayPal\Braintree\Gateway\Request\FraudDataBuilder</item>-->
+                <!--                <item name="source" xsi:type="string">PayPal\Braintree\Gateway\Request\TransactionSourceDataBuilder</item>-->
+                <!--                <item name="customFields" xsi:type="string">PayPal\Braintree\Gateway\Request\CustomFieldsDataBuilder</item>-->
+                <!--                <item name="address" xsi:type="string">PayPal\Braintree\Gateway\Request\AddressDataBuilder</item>-->
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="MalgaPixAuthorizationHandler" type="Magento\Payment\Gateway\Response\HandlerChain">
         <arguments>
             <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">PlugBilletConfigValueHandler</item>
+                <item name="payment_details" xsi:type="string">Malga\Payments\Gateway\Response\PaymentDetailsHandler</item>
+                <item name="txn_id" xsi:type="string">Malga\Payments\Gateway\Response\TransactionIdHandler</item>
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="PlugBilletConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
+    <virtualType name="MalgaPixSaleCommand" type="MalgaPixAuthorizeCommand">
         <arguments>
-            <argument name="configInterface" xsi:type="object">PlugBilletConfig</argument>
+            <argument name="requestBuilder" xsi:type="object">MalgaPixSaleRequest</argument>
         </arguments>
     </virtualType>
-    <virtualType name="PlugBilletConfig" type="Magento\Payment\Gateway\Config\Config">
+    <virtualType name="MalgaPixSaleRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
         <arguments>
-            <argument name="methodCode" xsi:type="const">PlugHacker\PlugPagamentos\Model\Ui\Billet\ConfigProvider::CODE</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="PlugBilletCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
-        <arguments>
-            <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PlugHacker\PlugPagamentos\Gateway\Transaction\Base\Command\InitializeCommand</item>
-                <item name="authorize" xsi:type="string">PlugBilletAuthorizeCommand</item>
+            <argument name="builders" xsi:type="array">
+                <item name="authorize" xsi:type="string">MalgaPixAuthorizeRequest</item>
+                <!--  @todo settlement = CAPTURE?               <item name="settlement" xsi:type="string">PayPal\Braintree\Gateway\Request\SettlementDataBuilder</item>-->
             </argument>
         </arguments>
     </virtualType>
-    <virtualType name="PlugBilletAuthorizeCommand" type="PlugHacker\PlugPagamentos\Gateway\Transaction\Billet\Command\AuthorizeCommand">
+    <virtualType name="MalgaPixCaptureStrategyCommand" type="Malga\Payments\Gateway\Command\CaptureStrategyCommand">
         <arguments>
-            <argument name="requestBuilder" xsi:type="object">PlugHacker\PlugPagamentos\Gateway\Transaction\Billet\ResourceGateway\Create\RequestBuilder</argument>
-            <argument name="responseHandler" xsi:type="object">PlugBilletAuthorizeCommandResponseHandlerPool</argument>
-            <argument name="validator" xsi:type="object">PlugHacker\PlugPagamentos\Gateway\Transaction\Billet\ResourceGateway\Create\Response\Validator</argument>
+            <argument name="commandPool" xsi:type="object">MalgaPixCommandPool</argument>
         </arguments>
     </virtualType>
-    <virtualType name="PlugBilletAuthorizeCommandResponseHandlerPool" type="Magento\Payment\Gateway\Response\HandlerChain">
+    <virtualType name="Malga\Payments\Gateway\ErrorMapper\VirtualMappingData" type="Magento\Payment\Gateway\ErrorMapper\MappingData">
         <arguments>
-            <argument name="handlers" xsi:type="array">
-                <item name="general" xsi:type="string">PlugHacker\PlugPagamentos\Gateway\Transaction\Billet\ResourceGateway\Create\Response\GeneralHandler</item>
-            </argument>
+            <argument name="cacheId" xsi:type="string">malga_error_mapper</argument>
         </arguments>
     </virtualType>
-    <!-- Billet -->
-
-    <!-- CreditCard -->
-    <virtualType name="PlugCreditCardsRemoteMethodAdapter" type="Magento\Payment\Model\Method\Adapter">
+    <virtualType name="Malga\Payments\Gateway\ErrorMapper\VirtualErrorMessageMapper" type="Magento\Payment\Gateway\ErrorMapper\ErrorMessageMapper">
         <arguments>
-            <argument name="code" xsi:type="const">PlugHacker\PlugPagamentos\Model\Ui\CreditCard\ConfigProvider::CODE</argument>
-            <argument name="valueHandlerPool" xsi:type="object">PlugCreditCardValueHandlerPool</argument>
-            <argument name="commandPool" xsi:type="object">PlugCreditCardCommandPool</argument>
-            <argument name="formBlockType" xsi:type="string">Magento\Payment\Block\Form</argument>
-            <argument name="infoBlockType" xsi:type="string">PlugHacker\PlugPagamentos\Block\Payment\Info\CreditCard</argument>
+            <argument name="messageMapping" xsi:type="object">Malga\Payments\Gateway\ErrorMapper\VirtualMappingData</argument>
         </arguments>
     </virtualType>
-    <virtualType name="PlugCreditCardValueHandlerPool" type="Magento\Payment\Gateway\Config\ValueHandlerPool">
+    <type name="Malga\Payments\Gateway\Request\PaymentDataBuilder">
         <arguments>
-            <argument name="handlers" xsi:type="array">
-                <item name="default" xsi:type="string">PlugCreditCardConfigValueHandler</item>
-            </argument>
+            <argument name="config" xsi:type="object">MalgaPixPaymentsConfig</argument>
         </arguments>
-    </virtualType>
-    <virtualType name="PlugCreditCardConfigValueHandler" type="Magento\Payment\Gateway\Config\ConfigValueHandler">
-        <arguments>
-            <argument name="configInterface" xsi:type="object">PlugCreditCardConfig</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="PlugCreditCardConfig" type="Magento\Payment\Gateway\Config\Config">
-        <arguments>
-            <argument name="methodCode" xsi:type="const">PlugHacker\PlugPagamentos\Model\Ui\CreditCard\ConfigProvider::CODE</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="PlugCreditCardCommandPool" type="Magento\Payment\Gateway\Command\CommandPool">
-        <arguments>
-            <argument name="commands" xsi:type="array">
-                <item name="initialize" xsi:type="string">PlugHacker\PlugPagamentos\Gateway\Transaction\Base\Command\InitializeCommand</item>
-                <item name="authorize" xsi:type="string">PlugCreditCardAuthorizeCommand</item>
-                <item name="capture" xsi:type="string">PlugCreditCardCaptureCommand</item>
-                <item name="refund" xsi:type="string">PlugCreditCardRefundCommand</item>
-            </argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="PlugCreditCardAuthorizeCommand" type="PlugHacker\PlugPagamentos\Gateway\Transaction\CreditCard\Command\AuthorizeCommand">
-        <arguments>
-            <argument name="requestBuilder" xsi:type="object">PlugHacker\PlugPagamentos\Gateway\Transaction\CreditCard\ResourceGateway\Create\RequestBuilder</argument>
-            <argument name="responseHandler" xsi:type="object">PlugCreditCardAuthorizeCommandResponseHandlerPool</argument>
-            <argument name="validator" xsi:type="object">PlugHacker\PlugPagamentos\Gateway\Transaction\CreditCard\ResourceGateway\Create\Response\Validator</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="PlugCreditCardAuthorizeCommandResponseHandlerPool" type="Magento\Payment\Gateway\Response\HandlerChain">
-        <arguments>
-            <argument name="handlers" xsi:type="array">
-                <item name="general" xsi:type="string">PlugHacker\PlugPagamentos\Gateway\Transaction\CreditCard\ResourceGateway\Create\Response\GeneralHandler</item>
-            </argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="PlugCreditCardInstallment" type="PlugHacker\PlugPagamentos\Model\Installments\Config\Config">
-        <arguments>
-            <argument name="paymentMethodCode" xsi:type="const">PlugHacker\PlugPagamentos\Model\Ui\CreditCard\ConfigProvider::CODE</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="PlugCreditCardInstallmentByBrand" type="PlugHacker\PlugPagamentos\Model\Installments\Config\ConfigByBrand">
-        <arguments>
-            <argument name="paymentMethodCode" xsi:type="const">PlugHacker\PlugPagamentos\Model\Ui\CreditCard\ConfigProvider::CODE</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="PlugCreditCardInstallmentByBrandAndAmount" type="PlugHacker\PlugPagamentos\Model\Installments\Config\ConfigByBrand">
-        <arguments>
-            <argument name="paymentMethodCode" xsi:type="const">PlugHacker\PlugPagamentos\Model\Ui\CreditCard\ConfigProvider::CODE</argument>
-        </arguments>
-    </virtualType>
-
-    <!-- Capture -->
-    <virtualType name="PlugCreditCardCaptureCommand" type="PlugHacker\PlugPagamentos\Gateway\Transaction\CreditCard\Command\CaptureCommand">
-        <arguments>
-            <argument name="requestBuilder" xsi:type="object">PlugHacker\PlugPagamentos\Gateway\Transaction\CreditCard\ResourceGateway\Capture\RequestBuilder</argument>
-            <argument name="responseHandler" xsi:type="object">PlugCreditCardCaptureCommandResponseHandlerPool</argument>
-            <argument name="validator" xsi:type="object">PlugHacker\PlugPagamentos\Gateway\Transaction\CreditCard\ResourceGateway\Capture\Response\Validator</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="PlugCreditCardCaptureCommandResponseHandlerPool" type="Magento\Payment\Gateway\Response\HandlerChain">
-        <arguments>
-            <argument name="handlers" xsi:type="array">
-                <item name="general" xsi:type="string">PlugHacker\PlugPagamentos\Gateway\Transaction\CreditCard\ResourceGateway\Capture\Response\GeneralHandler</item>
-            </argument>
-        </arguments>
-    </virtualType>
-    <!-- Capture -->
-
-    <!-- Refund -->
-    <virtualType name="PlugCreditCardRefundCommand" type="PlugHacker\PlugPagamentos\Gateway\Transaction\CreditCard\Command\RefundCommand">
-        <arguments>
-            <argument name="requestBuilder" xsi:type="object">PlugHacker\PlugPagamentos\Gateway\Transaction\CreditCard\ResourceGateway\Refund\RequestBuilder</argument>
-            <argument name="responseHandler" xsi:type="object">PlugCreditCardRefundCommandResponseHandlerPool</argument>
-            <argument name="validator" xsi:type="object">PlugHacker\PlugPagamentos\Gateway\Transaction\CreditCard\ResourceGateway\Refund\Response\Validator</argument>
-        </arguments>
-    </virtualType>
-    <virtualType name="PlugCreditCardRefundCommandResponseHandlerPool" type="Magento\Payment\Gateway\Response\HandlerChain">
-        <arguments>
-            <argument name="handlers" xsi:type="array">
-                <item name="general" xsi:type="string">PlugHacker\PlugPagamentos\Gateway\Transaction\CreditCard\ResourceGateway\Refund\Response\GeneralHandler</item>
-            </argument>
-        </arguments>
-    </virtualType>
-
-    <type name="Magento\Customer\Controller\Adminhtml\Index\InlineEdit">
-        <plugin name="afterSaveCustomerAdminInLine" type="PlugHacker\PlugPagamentos\Plugin\Admin\CustomerPlugin" sortOrder="1" />
     </type>
-
-    <type name="\Magento\Catalog\Pricing\Render\FinalPriceBox">
-        <plugin name="plug_change_template" type="PlugHacker\PlugPagamentos\Plugin\Princing\Render\FinalPricePlugin" />
-    </type>
-
-    <!-- Recurrence -->
-    <preference for="PlugHacker\PlugPagamentos\Api\InvoiceApiInterface" type="PlugHacker\PlugPagamentos\Model\Api\Invoice" />
-
 </config>

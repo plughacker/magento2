@@ -1,20 +1,31 @@
 {
-    "name": "plughacker/magento2",
-    "license": "MIT",
-    "version": "1.0.1",
-    "type": "magento2-module",
-    "description": "Magento 2 Plug Module",
-    "minimum-stability": "dev",
-    "require": {
-        "plughacker/magento2-api": "1.0.1",
-        "plughacker/magento2-core": "1.0.1"
-    },
-    "autoload": {
-        "files": [
-            "registration.php"
-        ],
-        "psr-4": {
-            "PlugHacker\\PlugPagamentos\\": ""
-        }
+  "name": "malga/module-payments",
+  "version": "0.1.0",
+  "description": "N/A",
+  "type": "magento2-module",
+  "require": {
+    "php": "^7.4 | ^8.0",
+    "malga/sdk-php": "dev-develop",
+    "magento/framework": "*",
+    "magento/module-checkout": "100.4.*",
+    "magento/module-customer": "103.0.*",
+    "magento/module-payment": "100.4.*",
+    "magento/module-sales": "103.0.*"
+  },
+  "license": [
+    "MIT"
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Malga\\Payments\\": ""
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Malga\\Payments\\Test\\": "Test/"
+    }
+  }
 }

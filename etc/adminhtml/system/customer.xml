@@ -1,9 +1,29 @@
 <?xml version="1.0"?>
-<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
-    <group id="plug_customer" translate="label comment" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="20">
-        <label>Customer Config</label>
-        <frontend_model>PlugHacker\PlugPagamentos\Block\Adminhtml\System\Config\Fieldset\Payment</frontend_model>
-        <include path="PlugHacker_PlugPagamentos::system/customer/address.xml"/>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="customer_settings" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+        <label>Customer settings</label>
+        <!--    @todo add company field configuration-->
+        <field id="create_customer" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Create customer</label>
+            <comment><![CDATA[Create customer in Malga]]></comment>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <config_path>payment/malga/create_customer</config_path>
+        </field>
+        <field id="customer_address_street_field" translate="label" type="obscure" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Street address field name</label>
+            <config_path>payment/malga/customer_address_street_field</config_path>
+        </field>
+        <field id="customer_address_number_field" translate="label" type="obscure" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Street address number field name</label>
+            <config_path>payment/malga/customer_address_number_field</config_path>
+        </field>
+        <field id="customer_address_complement_field" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Street address complement field name</label>
+            <config_path>payment/malga/customer_address_complement_field</config_path>
+        </field>
+        <field id="customer_address_district_field" translate="label" type="obscure" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Street address district field name</label>
+            <config_path>payment/malga/customer_address_complement_field</config_path>
+        </field>
     </group>
 </include>

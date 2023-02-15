@@ -1,75 +1,44 @@
 <?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+<!--
+  ~ This file is part of Malga Payment Extension for Adobe Commerce / Magento Open Source Payment Extension. For the
+  ~ full copyright and license information please view the LICENSE.md file that was distributed with this source code.
+  ~
+  ~ @copyright 2023 Malga
+  ~ @author Malga Team <engineer@malga.io>
+  ~ @link https://docs.malga.io/ Documentation of Malga
+  -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
-        <plug>
-            <general>
-                <sandbox_url>https://sandbox-api.plugpagamentos.com</sandbox_url>
-                <production_url>https://api.plugpagamentos.com</production_url>
-            </general>
-            <global>
-                <webhook_key/>
-                <webhook_key_test/>
-                <invoice_sendmail>1</invoice_sendmail>
-            </global>
-        </plug>
         <payment>
-            <plug_billet>
+            <malga>
+                <sandbox_mode>0</sandbox_mode>
+                <public_key_sandbox backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <private_key_sandbox backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <public_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+                <private_key backend_model="Magento\Config\Model\Config\Backend\Encrypted" />
+            </malga>
+            <malga_pix>
+                <title>PIX</title>
                 <active>0</active>
-                <model>PlugBilletRemoteMethodAdapter</model>
-                <order_status>pending_payment</order_status>
+                <debug>0</debug>
+<!--                <debugReplaceKeys></debugReplaceKeys>-->
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_void>1</can_void>
+                <can_use_checkout>1</can_use_checkout>
+                <can_use_internal>0</can_use_internal>
+<!--                <currency>BR</currency>-->
+                <is_gateway>1</is_gateway>
+<!--                <merchant_gateway_key></merchant_gateway_key>-->
+                <model>MalgaPixFacade</model>
+                <order_status>pending</order_status>
+<!--                <paymentInfoKeys></paymentInfoKeys>-->
+<!--                <privateInfoKeys></privateInfoKeys>-->
                 <payment_action>authorize</payment_action>
-                <title>Plug Billet</title>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_use_checkout>1</can_use_checkout>
-                <can_use_internal>1</can_use_internal>
-                <is_gateway>1</is_gateway>
-                <sort_order>1</sort_order>
-                <can_initialize>1</can_initialize>
-                <expiration_days>5</expiration_days>
-            </plug_billet>
-            <plug_pix>
-                <active>0</active>
-                <model>PlugPixRemoteMethodAdapter</model>
-                <order_status>pending_payment</order_status>
-                <payment_action>authorize</payment_action>
-                <title>Plug Pix</title>
-                <can_authorize>1</can_authorize>
-                <can_capture>1</can_capture>
-                <can_use_checkout>1</can_use_checkout>
-                <can_use_internal>1</can_use_internal>
-                <is_gateway>1</is_gateway>
-                <sort_order>1</sort_order>
-                <can_initialize>1</can_initialize>
-                <expiration_days>5</expiration_days>
-            </plug_pix>
-            <plug_creditcard>
-                <active>0</active>
-                <model>PlugCreditCardsRemoteMethodAdapter</model>
-                <order_status>pending_payment</order_status>
-                <payment_action>authorize_capture</payment_action>
-                <title>Plug Credit Card</title>
-                <can_authorize>1</can_authorize>
-                <can_capture_partial>1</can_capture_partial>
-                <can_capture>1</can_capture>
-                <can_refund>1</can_refund>
-                <can_refund_partial_per_invoice>1</can_refund_partial_per_invoice>
-                <can_use_checkout>1</can_use_checkout>
-                <can_use_internal>1</can_use_internal>
-                <cctypes>NoBrand</cctypes>
-                <is_gateway>1</is_gateway>
-                <sort_order>1</sort_order>
-                <installments_active>0</installments_active>
-                <installments_interest_by_issuer>0</installments_interest_by_issuer>
-                <installments_number>12</installments_number>
-                <installments_is_with_interest>1</installments_is_with_interest>
-                <installment_min_amount>10.00</installment_min_amount>
-                <installments_interest_rate>10</installments_interest_rate>
-                <installments_max_without_interest>6</installments_max_without_interest>
-                <can_initialize>1</can_initialize>
-                <allow_multiple_address>0</allow_multiple_address>
-            </plug_creditcard>
+                <sort_order>0</sort_order>
+                <qrcode_expiration>900</qrcode_expiration>
+            </malga_pix>
         </payment>
     </default>
 </config>
+
