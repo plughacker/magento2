@@ -1,0 +1,17 @@
+/* Module configuration section  */
+@image-url: "../images";
+
+.malga-section {
+    .heading {
+
+        background: url("@{image-url}/malga_logo.png") no-repeat left center;
+        padding-left: 20rem;
+        min-height: 54px
+    }
+    .button-container {
+        float: right;
+    }
+    &.section-config.active > .admin__collapsible-block + input + fieldset {
+        margin-left: 40px;
+    }
+}

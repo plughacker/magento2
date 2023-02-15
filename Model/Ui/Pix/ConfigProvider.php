@@ -1,36 +1,57 @@
 <?php
+/**
+ * This file is part of Malga Payment Extension for Adobe Commerce / Magento Open Source Payment Extension. For the
+ * full copyright and license information please view the LICENSE.md file that was distributed with this source code.
+ *
+ * @copyright 2023 Malga
+ * @author Malga Team <engineer@malga.io>
+ * @link https://docs.malga.io/ Documentation of Malga
+ */
 
-namespace PlugHacker\PlugPagamentos\Model\Ui\Pix;
+declare(strict_types=1);
+
+namespace Malga\Payments\Model\Ui\Pix;
 
 use Magento\Checkout\Model\ConfigProviderInterface;
-use PlugHacker\PlugCore\Kernel\ValueObjects\Configuration\PixConfig;
-use PlugHacker\PlugPagamentos\Concrete\Magento2CoreSetup as MPSetup;
+use Magento\Framework\View\Asset\Repository;
+use Magento\Payment\Gateway\ConfigInterface;
 
-final class ConfigProvider implements ConfigProviderInterface
+class ConfigProvider implements ConfigProviderInterface
 {
-    const CODE = 'plug_pix';
+    public const CODE = 'malga_pix';
 
     /**
-     * @var PixConfig
+     * @var ConfigInterface
      */
-    private $pixConfig;
+    private ConfigInterface $config;
 
-    public function __construct()
+    /**
+     * @var Repository
+     */
+    private Repository $repository;
+
+    /**
+     * ConfigProvider constructor.
+     * @param ConfigInterface $config
+     * @param Repository $repository
+     */
+    public function __construct(ConfigInterface $config, Repository $repository)
     {
-        MPSetup::bootstrap();
-        $moduleConfig = MPSetup::getModuleConfiguration();
-        if (!empty($moduleConfig->getPixConfig())) {
-            $this->pixConfig = $moduleConfig->getPixConfig();
-        }
+        $this->config = $config;
+        $this->repository = $repository;
     }
 
-    public function getConfig()
+    /**
+     * @inheritDoc
+     */
+    public function getConfig(): array
     {
         return [
             'payment' => [
                 self::CODE => [
-                    'active' => $this->pixConfig->isEnabled(),
-                    'title' => $this->pixConfig->getTitle(),
+                    'isActive' => $this->config->getValue('active'),
+                    'title' => $this->config->getValue('title'),
+                    'image' => $this->repository->createAsset('Malga_Payments::images/logo-pix.png')->getUrl()
                 ]
             ]
         ];

@@ -10,6 +10,9 @@
 
 declare(strict_types=1);
 
-use Magento\Framework\Component\ComponentRegistrar;
+namespace Malga\Payments\Model;
 
-ComponentRegistrar::register(ComponentRegistrar::MODULE, 'Malga_Payments', __DIR__);
+class Config
+{
+    public const MODULE_VERSION = "0.1.0";
+}

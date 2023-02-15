@@ -1,30 +1,20 @@
-<?xml version="1.0" ?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
-	<system>
-		<section id="plug" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
-			<label>Plug Pagamentos</label>
-			<tab>sales</tab>
-			<resource>PlugHacker_PlugPagamentos::config_plug_pagamentos</resource>
-			<group id="general" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
-				<label>General</label>
-				<field id="is_active" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="20" translate="label" type="select">
-		            <label>Is Active</label>
-		            <comment />
-		            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-		        </field>
-			</group>
-		</section>
-		<section id="payment" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="1000" translate="label">
-            <group id="plug" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
-                <label>
-                    <![CDATA[Plug&nbsp;&nbsp;<i>Payment Solutions.</i>]]>
-                </label>
-                <frontend_model>PlugHacker\PlugPagamentos\Block\Adminhtml\System\Config\Fieldset\Group</frontend_model>
-                <include path="PlugHacker_PlugPagamentos::system/global.xml"/>
-                <include path="PlugHacker_PlugPagamentos::system/customer.xml"/>
-                <include path="PlugHacker_PlugPagamentos::system/transaction.xml"/>
-            </group>
-        </section>
-	</system>
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+  <system>
+    <section id="payment">
+      <group id="malga_section" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+        <label>Malga</label>
+        <comment>Single Payments integration with multiple connections that empower e-commerces, platforms and digital businesses.</comment>
+        <fieldset_css>complex malga-section</fieldset_css>
+        <frontend_model>Malga\Payments\Block\Adminhtml\System\Config\Form\Fieldset</frontend_model>
+        <include path="Malga_Payments::system/basic.xml"/>
+        <include path="Malga_Payments::system/customer.xml"/>
+        <include path="Malga_Payments::system/pix.xml"/>
+<!--        <include path="StripeIntegration_Payments::system/express.xml"/>-->
+<!--        <include path="StripeIntegration_Payments::system/fraud.xml"/>-->
+<!--        <include path="StripeIntegration_Payments::system/subscriptions.xml"/>-->
+      </group>
+    </section>
+  </system>
 </config>

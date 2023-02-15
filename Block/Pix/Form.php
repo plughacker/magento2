@@ -10,6 +10,11 @@
 
 declare(strict_types=1);
 
-use Magento\Framework\Component\ComponentRegistrar;
+namespace Malga\Payments\Block\Pix;
 
-ComponentRegistrar::register(ComponentRegistrar::MODULE, 'Malga_Payments', __DIR__);
+use Magento\Payment\Block\Form as FormFramework;
+
+class Form extends FormFramework
+{
+//    protected $_template = 'Malga_Payments::form/pix.phtml';
+}

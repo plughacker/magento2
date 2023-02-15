@@ -1,41 +1,17 @@
 <?xml version="1.0"?>
 <!--
-/**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
--->
+  ~ This file is part of Malga Payment Extension for Adobe Commerce / Magento Open Source Payment Extension. For the
+  ~ full copyright and license information please view the LICENSE.md file that was distributed with this source code.
+  ~
+  ~ @copyright 2023 Malga
+  ~ @author Malga Team <engineer@malga.io>
+  ~ @link https://docs.malga.io/ Documentation of Malga
+  -->
+
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="Magento\GroupedProduct\Model\Product\Type\Grouped" type="Magento\GroupedProduct\Model\Product\Type\Grouped\Backend" />
-    <type name="Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\AbstractSidebar">
-        <plugin name="GroupedProduct" type="Magento\GroupedProduct\Block\Adminhtml\Order\Create\Sidebar" sortOrder="100"/>
-    </type>
-    <type name="Magento\Catalog\Model\Product\CopyConstructor\Composite">
+    <type name="Malga\Payments\Block\Adminhtml\System\Config\Form\Fieldset">
         <arguments>
-            <argument name="constructors" xsi:type="array">
-                <item name="grouped" xsi:type="string">Magento\GroupedProduct\Model\Product\CopyConstructor\Grouped</item>
-            </argument>
+            <argument name="secureRenderer" xsi:type="object">Magento\Framework\View\Helper\SecureHtmlRenderer\Proxy</argument>
         </arguments>
     </type>
-    <type name="Magento\Sales\Model\AdminOrder\Product\Quote\Initializer">
-        <plugin name="sales_adminorder_quote_initializer_plugin" type="PlugHacker\PlugPagamentos\Model\Sales\AdminOrder\Product\Quote\Plugin\Initializer" sortOrder="100"/>
-    </type>
-    <virtualType name="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Pool">
-        <arguments>
-            <argument name="modifiers" xsi:type="array">
-                <item name="grouped-custom-options" xsi:type="array">
-                    <item name="class" xsi:type="string">Magento\GroupedProduct\Ui\DataProvider\Product\Form\Modifier\CustomOptions</item>
-                    <item name="sortOrder" xsi:type="number">72</item>
-                </item>
-                <item name="plan" xsi:type="array">
-                    <item name="class" xsi:type="string">PlugHacker\PlugPagamentos\Ui\DataProvider\Product\Form\Modifier\Plan</item>
-                    <item name="sortOrder" xsi:type="number">120</item>
-                </item>
-                <item name="grouped_stock_data" xsi:type="array">
-                    <item name="class" xsi:type="string">Magento\GroupedProduct\Ui\DataProvider\Product\Form\Modifier\StockData</item>
-                    <item name="sortOrder" xsi:type="number">121</item>
-                </item>
-            </argument>
-        </arguments>
-    </virtualType>
 </config>

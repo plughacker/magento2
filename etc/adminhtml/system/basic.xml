@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+  <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+    <label>General settings</label>
+    <comment><![CDATA[<p>You will need to set your API keys before you can accept payments. If you do not yet have a Malga account, please <a href="https://dashboard.malga.io/sign-up" target="_blank" rel="noopener noreferrer">click here</a> to register.</p>
+    <p>See the <a href="https://docs.malga.io/" target="_blank" rel="noopener noreferrer">Malga Dev Center</a> to find information about configuring this module.</p>]]></comment>
+    <attribute type="expanded">1</attribute>
+    <field id="module_version" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+      <label>Module version</label>
+      <frontend_model>Malga\Payments\Model\Adminhtml\Config\Source\ModuleVersion</frontend_model>
+    </field>
+    <field id="sdk_version" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+      <label>SDK version</label>
+      <frontend_model>Malga\Payments\Model\Adminhtml\Config\Source\SdkVersion</frontend_model>
+    </field>
+    <field id="sandbox_mode" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+      <label>Sandbox mode</label>
+      <comment><![CDATA[Set this to enable or disable Sandbox mode]]></comment>
+      <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+      <config_path>payment/malga/sandbox_mode</config_path>
+    </field>
+    <field id="public_key_sandbox" translate="label" type="obscure" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+      <label>Sandbox Public API key</label>
+      <depends>
+        <field id="sandbox_mode">1</field>
+      </depends>
+      <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+      <config_path>payment/malga/public_key_sandbox</config_path>
+    </field>
+    <field id="secret_key_sandbox" translate="label" type="obscure" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+      <label>Sandbox Secret API Key</label>
+      <depends>
+        <field id="sandbox_mode">1</field>
+      </depends>
+      <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+      <config_path>payment/malga/secret_key_sandbox</config_path>
+    </field>
+    <field id="merchant_id_sandbox" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+      <label>Sandbox Merchant ID</label>
+      <depends>
+        <field id="sandbox_mode">1</field>
+      </depends>
+      <config_path>payment/malga/merchant_id_sandbox</config_path>
+    </field>
+    <field id="public_key" translate="label" type="obscure" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+      <label>Public API key</label>
+      <depends>
+        <field id="sandbox_mode">0</field>
+      </depends>
+      <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+      <config_path>payment/malga/public_key</config_path>
+    </field>
+    <field id="secret_key" translate="label" type="obscure" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+      <label>Secret API Key</label>
+      <depends>
+        <field id="sandbox_mode">0</field>
+      </depends>
+      <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+      <config_path>payment/malga/secret_key</config_path>
+    </field>
+    <field id="merchant_id" translate="label" type="text" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+      <label>Merchant ID</label>
+      <depends>
+        <field id="sandbox_mode">0</field>
+      </depends>
+      <config_path>payment/malga/merchant_id</config_path>
+    </field>
+ </group>
+</include>
