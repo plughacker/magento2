@@ -5,7 +5,7 @@
   "type": "magento2-module",
   "require": {
     "php": "^7.4 | ^8.0",
-    "malga/sdk-php": "dev-develop",
+    "malga/sdk-php": "0.1.0",
     "magento/framework": "*",
     "magento/module-checkout": "100.4.*",
     "magento/module-customer": "103.0.*",
