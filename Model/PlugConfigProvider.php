@@ -56,7 +56,7 @@ class PlugConfigProvider
      */
     public function getSoftDescription()
     {
-        return $this->scopeConfig->getValue(self::XML_PATH_SOFTDESCRIPTION, ScopeInterface::SCOPE_STORE);
+        return (string)$this->scopeConfig->getValue(self::XML_PATH_SOFTDESCRIPTION, ScopeInterface::SCOPE_STORE);
     }
 
     public function validateSoftDescription()
