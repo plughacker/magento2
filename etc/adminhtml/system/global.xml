@@ -59,7 +59,7 @@
 		<field id="client_id_test" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="25" translate="label" type="text">
 			<label>Client Id Test</label>
 			<backend_model>PlugHacker\PlugPagamentos\Model\Validation\GenericValidation</backend_model>
-			<comment>Client Id Test for First Authentication Plug. Contact Plug to get your own Client Id Test.</comment>
+			<comment>Client Id Test for First Authentication Plug. Contact Plug to get your own Client Id Test (Publishable API key).</comment>
 			<config_path>plug/global/client_id_test</config_path>
 			<depends>
 				<field id="test_mode">1</field>
@@ -68,7 +68,7 @@
 		<field id="secret_key_test" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="30" translate="label" type="text">
 			<label>Api Key Test</label>
 			<backend_model>PlugHacker\PlugPagamentos\Model\Validation\GenericValidation</backend_model>
-			<comment>Api key Test for First Authentication Plug. Contact Plug to get your own Api Key Test.</comment>
+			<comment>Api key Test for First Authentication Plug. Contact Plug to get your own Api Key Test (Secret API Key).</comment>
 			<config_path>plug/global/secret_key_test</config_path>
 			<depends>
 				<field id="test_mode">1</field>
