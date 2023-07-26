@@ -4,7 +4,9 @@ namespace PlugHacker\PlugPagamentos\Model;
 
 use Magento\Framework\DB\Transaction;
 use Magento\Framework\Phrase;
+use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Framework\Webapi\Exception as M2WebApiException;
+use Magento\Framework\Webapi\Rest\Request;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\CreditmemoFactory;
@@ -21,22 +23,46 @@ use PlugHacker\PlugPagamentos\Concrete\Magento2CoreSetup;
 
 class WebhookManagement implements WebhookManagementInterface
 {
+    private Request $request;
+    private SerializerInterface $serializer;
+
+    public function __construct(Request $request, SerializerInterface $serializer)
+    {
+        $this->request = $request;
+        $this->serializer = $serializer;
+    }
+
     /**
      * @api
-     * @param mixed $id
-     * @param mixed $type
-     * @param mixed $data
-     * @return array|bool
+     * @return mixed
      */
-    public function save($id, $type, $data)
+    public function save()
     {
         try {
             Magento2CoreSetup::bootstrap();
 
             $postData = new \stdClass();
-            $postData->id = $id;
-            $postData->type = $type;
-            $postData->data = $data;
+            $postData->id = '';
+            $postData->type = '';
+            $postData->data = '';
+
+            $content = $this->request->getContent();
+
+            if (!empty($content)) {
+                try {
+                    $json = $this->serializer->unserialize($content);
+
+                    $postData->id = (string)$json['id'];
+                    $postData->type = \sprintf('%s.%s', $json['object'], $json['event']);
+                    $postData->data = $json['data'];
+                } catch (\InvalidArgumentException $exception) {
+                    throw new M2WebApiException(
+                        new Phrase($exception->getMessage()),
+                        0,
+                        $exception->getCode()
+                    );
+                }
+            }
 
             $webhookReceiverService = new WebhookReceiverService();
             return $webhookReceiverService->handle($postData);

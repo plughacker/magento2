@@ -6,10 +6,7 @@ interface WebhookManagementInterface
 {
     /**
      * @api
-     * @param mixed $id
-     * @param mixed $type
-     * @param mixed $data
-     * @return boolean
+     * @return mixed
      */
-    public function save($id, $type, $data);
+    public function save();
 }
