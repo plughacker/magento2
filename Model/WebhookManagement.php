@@ -52,9 +52,14 @@ class WebhookManagement implements WebhookManagementInterface
                 try {
                     $json = $this->serializer->unserialize($content);
 
-                    $postData->id = (string)$json['id'];
-                    $postData->type = \sprintf('%s.%s', $json['object'], $json['event']);
-                    $postData->data = $json['data'];
+                    if ($json['object'] === 'transaction' && in_array($json['event'], ['authorized'], true)) {
+                        $postData->id = (string)$json['id'];
+                        $postData->type = \sprintf('%s.%s', $json['object'], $json['event']);
+
+                        $json['data']['webhook'] = true;
+
+                        $postData->data = $json['data'];
+                    }
                 } catch (\InvalidArgumentException $exception) {
                     throw new M2WebApiException(
                         new Phrase($exception->getMessage()),
