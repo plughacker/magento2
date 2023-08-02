@@ -182,7 +182,7 @@ class WebhookValidator extends ConfigValue
         if ($clientId && $merchantId && $secretKey) {
             Magento2CoreSetup::bootstrap();
             $status = $value == 1;
-            $endpoint = 'https://eo1r4l0f6csmgt.m.pipedream.net/' . ltrim('/rest/V1/plug/webhook', '/');
+            $endpoint = $this->_urlInterface->getBaseUrl() . ltrim('/rest/V1/plug/webhook', '/');
             $webhookPost = new Webhook();
             $webhookPost->setEvent('*');
             $webhookPost->setEndpoint($endpoint);
