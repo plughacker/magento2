@@ -17,7 +17,7 @@
     <preference for="PlugHacker\PlugPagamentos\Api\WebhookManagementInterface" type="PlugHacker\PlugPagamentos\Model\WebhookManagement"/>
     <preference for="PlugHacker\PlugPagamentos\Api\InstallmentsByBrandManagementInterface" type="PlugHacker\PlugPagamentos\Model\InstallmentsByBrandManagement"/>
     <preference for="PlugHacker\PlugPagamentos\Api\InstallmentsByBrandAndAmountManagementInterface" type="PlugHacker\PlugPagamentos\Model\InstallmentsByBrandAndAmountManagement"/>
-    <preference for="PlugHacker\PlugPagamentos\Api\CustomerCreateManagementInterface" type="PlugHacker\PlugPagamentos\Model\CustomerCreateManagement" />
+    <!--preference for="PlugHacker\PlugPagamentos\Api\CustomerCreateManagementInterface" type="PlugHacker\PlugPagamentos\Model\CustomerCreateManagement" /-->
 
     <preference for="PlugHacker\PlugPagamentos\Api\MaintenanceInterface"
                 type="PlugHacker\PlugPagamentos\Model\Maintenance"/>

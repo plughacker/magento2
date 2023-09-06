@@ -543,7 +543,7 @@ class Magento2PlatformOrderDecorator extends AbstractPlatformOrderDecorator
             $cleanDocument = preg_replace(
                 '/\D/',
                 '',
-                $address->getVatId()
+                (string)$address->getVatId()
             );
         }
 
@@ -576,20 +576,20 @@ class Magento2PlatformOrderDecorator extends AbstractPlatformOrderDecorator
 
         $customer = new Customer();
 
-        $customer->setName($guestAddress->getName());
-        $customer->setEmail($guestAddress->getEmail());
+        $customer->setName((string)$guestAddress->getName());
+        $customer->setEmail((string)$guestAddress->getEmail());
 
         $cleanDocument = preg_replace(
             '/\D/',
             '',
-            $guestAddress->getVatId() ?? ''
+            (string)$guestAddress->getVatId()
         );
 
         if (empty($cleanDocument)) {
             $cleanDocument = preg_replace(
                 '/\D/',
                 '',
-                $quote->getCustomerTaxvat()
+                (string)$quote->getCustomerTaxvat()
             );
         }
 
@@ -599,7 +599,7 @@ class Magento2PlatformOrderDecorator extends AbstractPlatformOrderDecorator
         $documentRequest->setCountry('BR');
         $customer->setDocument($documentRequest);
 
-        $telephone = $guestAddress->getTelephone();
+        $telephone = (string)$guestAddress->getTelephone();
         $phone = new Phone($telephone);
         $customer->setPhoneNumber($phone->getFullNumber());
 
