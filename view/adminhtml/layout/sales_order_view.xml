@@ -6,11 +6,11 @@
                 <argument name="template" translate="true" xsi:type="string">PlugHacker_PlugPagamentos::order/view/info.phtml</argument>
             </action>
         </referenceBlock>
-        <referenceBlock name="sales_order_tabs">
+        <!--referenceBlock name="sales_order_tabs">
             <action method="addTab">
                 <argument name="name" xsi:type="string">plug_charges</argument>
                 <argument name="block" xsi:type="string">PlugHacker\PlugPagamentos\Block\Adminhtml\Order\Charge\Tab\View</argument>
             </action>
-        </referenceBlock>
+        </referenceBlock-->
     </body>
 </page>
