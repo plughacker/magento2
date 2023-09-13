@@ -1,20 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace PlugHacker\PlugPagamentos\Model;
 
-use Magento\Framework\DB\Transaction;
 use Magento\Framework\Phrase;
 use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Framework\Webapi\Exception as M2WebApiException;
 use Magento\Framework\Webapi\Rest\Request;
-use Magento\Sales\Api\OrderRepositoryInterface;
-use Magento\Sales\Model\Order;
-use Magento\Sales\Model\Order\CreditmemoFactory;
-use Magento\Sales\Model\Order\Email\Sender\InvoiceSender;
-use Magento\Sales\Model\Service\CreditmemoService;
-use Magento\Sales\Model\Service\InvoiceService;
-use Magento\Sales\Model\Service\OrderService;
 use PlugHacker\PlugCore\Kernel\Exceptions\AbstractPlugCoreException;
+use PlugHacker\PlugCore\Kernel\ValueObjects\TransactionStatus;
 use PlugHacker\PlugCore\Webhook\Exceptions\WebhookAlreadyHandledException;
 use PlugHacker\PlugCore\Webhook\Exceptions\WebhookHandlerNotFoundException;
 use PlugHacker\PlugCore\Webhook\Services\WebhookReceiverService;
@@ -52,7 +46,9 @@ class WebhookManagement implements WebhookManagementInterface
                 try {
                     $json = $this->serializer->unserialize($content);
 
-                    if ($json['object'] === 'transaction' && in_array($json['event'], ['authorized'], true)) {
+                    $statuses = [TransactionStatus::AUTHORIZED, TransactionStatus::CANCELED, TransactionStatus::VOIDED];
+
+                    if ($json['object'] === 'transaction' && \in_array($json['event'], $statuses, true)) {
                         $postData->id = (string)$json['id'];
                         $postData->type = \sprintf('%s.%s', $json['object'], $json['event']);
 
