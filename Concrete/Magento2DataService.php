@@ -135,7 +135,7 @@ class Magento2DataService extends AbstractDataService
         $transaction->setTxnId($transactionAuth->getTxnId() . '-capture');
         $transaction->setParentTxnId($transactionAuth->getTxnId(), $transactionAuth->getTxnId() . '-capture');
         $transaction->setTxnType('capture');
-        $transaction->setIsClosed(true);
+        $transaction->setIsClosed(false);
 
         foreach ( $additionalInformation as $key => $value ) {
             $transaction->setAdditionalInformation($key, $value);
@@ -178,6 +178,7 @@ class Magento2DataService extends AbstractDataService
         $transaction->setTxnType($transactionType);
         $transaction->setIsClosed($closed);
         $transaction->setTxnId($order->getPlugId()->getValue() . '-' . $transactionType);
+        $transaction->setParentTxnId($platformPayment->getLastTransId());
 
         $charges = $order->getCharges();
         $additionalInformation = [];
