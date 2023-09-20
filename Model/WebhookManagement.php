@@ -46,7 +46,12 @@ class WebhookManagement implements WebhookManagementInterface
                 try {
                     $json = $this->serializer->unserialize($content);
 
-                    $statuses = [TransactionStatus::AUTHORIZED, TransactionStatus::CANCELED, TransactionStatus::VOIDED];
+                    $statuses = [
+                        TransactionStatus::PRE_AUTHORIZED,
+                        TransactionStatus::AUTHORIZED,
+                        TransactionStatus::CANCELED,
+                        TransactionStatus::VOIDED
+                    ];
 
                     if ($json['object'] === 'transaction' && \in_array($json['event'], $statuses, true)) {
                         $postData->id = (string)$json['id'];

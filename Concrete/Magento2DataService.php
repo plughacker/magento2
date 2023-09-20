@@ -146,15 +146,20 @@ class Magento2DataService extends AbstractDataService
 
     public function createCaptureTransaction(Order $order)
     {
-        $this->createTransaction($order, parent::TRANSACTION_TYPE_CAPTURE);
+        $this->createTransaction($order, parent::TRANSACTION_TYPE_CAPTURE, false);
     }
 
     public function createAuthorizationTransaction(Order $order)
     {
-        $this->createTransaction($order, parent::TRANSACTION_TYPE_AUTHORIZATION);
+        $this->createTransaction($order, parent::TRANSACTION_TYPE_AUTHORIZATION, false);
     }
 
-    private function createTransaction(Order $order, $transactionType)
+    public function createVoidTransaction(Order $order)
+    {
+        $this->createTransaction($order, parent::TRANSACTION_TYPE_VOID, true);
+    }
+
+    private function createTransaction(Order $order, $transactionType, $closed)
     {
         $platformOrder = $order->getPlatformOrder()->getPlatformOrder();
         $platformPayment = $platformOrder->getPayment();
@@ -171,7 +176,7 @@ class Magento2DataService extends AbstractDataService
         $transaction->setOrderId($platformOrder->getEntityId());
         $transaction->setPaymentId($platformPayment->getEntityId());
         $transaction->setTxnType($transactionType);
-        $transaction->setIsClosed(true);
+        $transaction->setIsClosed($closed);
         $transaction->setTxnId($order->getPlugId()->getValue() . '-' . $transactionType);
 
         $charges = $order->getCharges();
