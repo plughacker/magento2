@@ -47,6 +47,7 @@ class WebhookManagement implements WebhookManagementInterface
                     $json = $this->serializer->unserialize($content);
 
                     $statuses = [
+                        TransactionStatus::PENDING,
                         TransactionStatus::PRE_AUTHORIZED,
                         TransactionStatus::AUTHORIZED,
                         TransactionStatus::CANCELED,
@@ -57,6 +58,8 @@ class WebhookManagement implements WebhookManagementInterface
                         $postData->id = (string)$json['id'];
                         $postData->type = \sprintf('%s.%s', $json['object'], $json['event']);
 
+
+                        // @see app/code/PlugHacker/PlugCore/Kernel/Factories/TransactionFactory.php:21
                         $json['data']['webhook'] = true;
 
                         $postData->data = $json['data'];
