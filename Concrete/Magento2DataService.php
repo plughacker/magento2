@@ -159,6 +159,11 @@ class Magento2DataService extends AbstractDataService
         $this->createTransaction($order, parent::TRANSACTION_TYPE_VOID, true);
     }
 
+    public function createRefundTransaction(Order $order)
+    {
+        $this->createTransaction($order, parent::TRANSACTION_TYPE_REFUND, true);
+    }
+
     private function createTransaction(Order $order, $transactionType, $closed)
     {
         $platformOrder = $order->getPlatformOrder()->getPlatformOrder();

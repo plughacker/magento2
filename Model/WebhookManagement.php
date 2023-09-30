@@ -51,7 +51,8 @@ class WebhookManagement implements WebhookManagementInterface
                         TransactionStatus::PRE_AUTHORIZED,
                         TransactionStatus::AUTHORIZED,
                         TransactionStatus::CANCELED,
-                        TransactionStatus::VOIDED
+                        TransactionStatus::VOIDED,
+                        TransactionStatus::CHARGED_BACK
                     ];
 
                     if ($json['object'] === 'transaction' && \in_array($json['event'], $statuses, true)) {
