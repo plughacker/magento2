@@ -532,6 +532,7 @@ class Magento2PlatformOrderDecorator extends AbstractPlatformOrderDecorator
 
         $customer->setName($fullName);
         $customer->setEmail($quote->getCustomerEmail());
+        $customer->setRegistrationDate($quoteCustomer->getCreatedAt());
 
         $cleanDocument = preg_replace(
             '/\D/',
@@ -578,6 +579,7 @@ class Magento2PlatformOrderDecorator extends AbstractPlatformOrderDecorator
 
         $customer->setName((string)$guestAddress->getName());
         $customer->setEmail((string)$guestAddress->getEmail());
+        $customer->setRegistrationDate($quote->getCreatedAt());
 
         $cleanDocument = preg_replace(
             '/\D/',
