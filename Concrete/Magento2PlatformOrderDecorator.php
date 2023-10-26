@@ -491,10 +491,10 @@ class Magento2PlatformOrderDecorator extends AbstractPlatformOrderDecorator
         $quoteCustomer = $quote->getCustomer();
 
         $addresses = $quoteCustomer->getAddresses();
-        $address = end($addresses);
+        $billingAddress = end($addresses);
 
-        if (!$address) {
-            $address = $quote->getBillingAddress();
+        if (!$billingAddress) {
+            $billingAddress = $quote->getBillingAddress();
         }
 
         $customerRepository =
@@ -544,7 +544,7 @@ class Magento2PlatformOrderDecorator extends AbstractPlatformOrderDecorator
             $cleanDocument = preg_replace(
                 '/\D/',
                 '',
-                (string)$address->getVatId()
+                (string)$billingAddress->getVatId()
             );
         }
 
@@ -555,13 +555,12 @@ class Magento2PlatformOrderDecorator extends AbstractPlatformOrderDecorator
 
         $customer->setDocument($documentRequest);
 
-        $telephone = $address->getTelephone();
+        $telephone = $billingAddress->getTelephone();
         $homePhone = new Phone($telephone);
         $customer->setPhoneNumber($homePhone->getFullNumber());
 
-        $address = $this->getAddress($address);
-
-        $customer->setAddress($address);
+        $customer->setBillingAddress($this->getAddress($billingAddress));
+        $customer->setDeliveryAddress($this->getAddress($quote->getShippingAddress()));
 
         return $customer;
     }
@@ -605,8 +604,8 @@ class Magento2PlatformOrderDecorator extends AbstractPlatformOrderDecorator
         $phone = new Phone($telephone);
         $customer->setPhoneNumber($phone->getFullNumber());
 
-        $address = $this->getAddress($guestAddress);
-        $customer->setAddress($address);
+        $customer->setBillingAddress($this->getAddress($guestAddress));
+        $customer->setDeliveryAddress($this->getAddress($quote->getShippingAddress()));
 
         return $customer;
     }
@@ -878,7 +877,7 @@ class Magento2PlatformOrderDecorator extends AbstractPlatformOrderDecorator
         $paymentData[$pixDataIndex][] = $newPaymentData;
     }
 
-    public function getShipping()
+    public function getShippingAddress()
     {
         $moneyService = new MoneyService();
         /** @var Shipping $shipping */
