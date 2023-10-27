@@ -501,7 +501,7 @@ class Magento2PlatformOrderDecorator extends AbstractPlatformOrderDecorator
             ObjectManager::getInstance()->get(CustomerRepository::class);
         $savedCustomer = $customerRepository->getById($quoteCustomer->getId());
 
-        $customer = new Customer;
+        $customer = new Customer();
 
         $mpId = null;
         try {
