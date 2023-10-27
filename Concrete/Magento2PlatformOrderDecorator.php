@@ -530,9 +530,9 @@ class Magento2PlatformOrderDecorator extends AbstractPlatformOrderDecorator
 
         $fullName = preg_replace("/  /", " ", $fullName);
 
-        $customer->setName($fullName);
-        $customer->setEmail($quote->getCustomerEmail());
-        $customer->setRegistrationDate($quoteCustomer->getCreatedAt());
+        $customer->setName((string)$fullName);
+        $customer->setEmail((string)$quote->getCustomerEmail());
+        $customer->setRegistrationDate((string)$quoteCustomer->getCreatedAt());
 
         $cleanDocument = preg_replace(
             '/\D/',
@@ -549,15 +549,15 @@ class Magento2PlatformOrderDecorator extends AbstractPlatformOrderDecorator
         }
 
         $documentRequest = new CustomerDocument();
-        $documentRequest->setNumber($cleanDocument);
-        $documentRequest->setType(CustomerType::individual()->getType());
+        $documentRequest->setNumber((string)$cleanDocument);
+        $documentRequest->setType((string)CustomerType::individual()->getType());
         $documentRequest->setCountry('BR');
 
         $customer->setDocument($documentRequest);
 
         $telephone = $billingAddress->getTelephone();
         $homePhone = new Phone($telephone);
-        $customer->setPhoneNumber($homePhone->getFullNumber());
+        $customer->setPhoneNumber((string)$homePhone->getFullNumber());
 
         $customer->setBillingAddress($this->getAddress($billingAddress));
         $customer->setDeliveryAddress($this->getAddress($quote->getShippingAddress()));
@@ -578,7 +578,7 @@ class Magento2PlatformOrderDecorator extends AbstractPlatformOrderDecorator
 
         $customer->setName((string)$guestAddress->getName());
         $customer->setEmail((string)$guestAddress->getEmail());
-        $customer->setRegistrationDate($quote->getCreatedAt());
+        $customer->setRegistrationDate((string)$quote->getCreatedAt());
 
         $cleanDocument = preg_replace(
             '/\D/',
@@ -595,14 +595,14 @@ class Magento2PlatformOrderDecorator extends AbstractPlatformOrderDecorator
         }
 
         $documentRequest = new CustomerDocument();
-        $documentRequest->setNumber($cleanDocument);
-        $documentRequest->setType(CustomerType::individual()->getType());
+        $documentRequest->setNumber((string)$cleanDocument);
+        $documentRequest->setType((string)CustomerType::individual()->getType());
         $documentRequest->setCountry('BR');
         $customer->setDocument($documentRequest);
 
         $telephone = (string)$guestAddress->getTelephone();
         $phone = new Phone($telephone);
-        $customer->setPhoneNumber($phone->getFullNumber());
+        $customer->setPhoneNumber((string)$phone->getFullNumber());
 
         $customer->setBillingAddress($this->getAddress($guestAddress));
         $customer->setDeliveryAddress($this->getAddress($quote->getShippingAddress()));
