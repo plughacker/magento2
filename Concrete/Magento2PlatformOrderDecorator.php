@@ -24,6 +24,7 @@ use PlugHacker\PlugCore\Kernel\ValueObjects\OrderState;
 use PlugHacker\PlugCore\Kernel\ValueObjects\OrderStatus;
 use PlugHacker\PlugCore\Kernel\ValueObjects\PaymentMethod;
 use PlugHacker\PlugCore\Payment\Aggregates\Address;
+use PlugHacker\PlugCore\Payment\Aggregates\CartItems;
 use PlugHacker\PlugCore\Payment\Aggregates\Customer;
 use PlugHacker\PlugCore\Payment\Aggregates\Item;
 use PlugHacker\PlugCore\Payment\Aggregates\Payments\AbstractCreditCardPayment;
@@ -636,7 +637,7 @@ class Magento2PlatformOrderDecorator extends AbstractPlatformOrderDecorator
                 continue;
             }
 
-            $item = new Item;
+            $item = new Item();
             $item->setAmount(
                 $moneyService->floatToCents($price)
             );
@@ -998,5 +999,25 @@ class Magento2PlatformOrderDecorator extends AbstractPlatformOrderDecorator
     public function getTotalCanceled()
     {
         return $this->platformOrder->getTotalCanceled();
+    }
+
+    public function getCartItems()
+    {
+        $items = [];
+
+        foreach ($this->platformOrder->getItems() as $item) {
+            $cartItems = new CartItems();
+            $cartItems->setName((string)$item->getName());
+            $cartItems->setQuantity((int)$item->getQtyOrdered());
+            $cartItems->setSku((string)$item->getSku());
+            $cartItems->setUnitPrice((int)str_replace(['.', ','], '', (float)$item->getPrice()));
+            $cartItems->setRisk((string)CartItems::RISK_LOW);
+            $cartItems->setDescription((string)$item->getDescription());
+            $cartItems->setCategoryId((string)implode(',', $item->getProduct()->getCategoryIds()));
+
+            $items[] = $cartItems;
+        }
+
+        return $items;
     }
 }
