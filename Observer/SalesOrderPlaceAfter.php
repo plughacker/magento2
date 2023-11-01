@@ -118,15 +118,13 @@ class SalesOrderPlaceAfter implements ObserverInterface
     }
 
     /**
-     * @param Order $order
-     * @return $invoice
+     * @param \Magento\Sales\Model\Order $order
+     * @return \Magento\Sales\Model\Order\Invoice $invoice
      */
     public function createInvoice($order)
     {
-        return true;
-
-        $payment
-            ->setIsTransactionClosed(true)
+        $payment = $order->getPayment();
+        $payment->setIsTransactionClosed(true)
             ->registerCaptureNotification(
                 $order->getGrandTotal(),
                 true

@@ -60,7 +60,7 @@ class CreditCardOrderPlaceBeforeObserver implements ObserverInterface
         return $this;
     }
 
-    protected function getTaxOrder($installments, $type = null, $order)
+    protected function getTaxOrder($installments, $type, $order)
     {
         $installmentService = new InstallmentService();
 
@@ -87,7 +87,7 @@ class CreditCardOrderPlaceBeforeObserver implements ObserverInterface
         return $result;
     }
 
-    protected function getTaxOrderByAmount($installments, $type = null, $amount)
+    protected function getTaxOrderByAmount($installments, $type, $amount)
     {
         $returnInstallments = $this->getInstallmentsByBrandAndAmountInterface()->getInstallmentsByBrandAndAmount($type,$amount);
         $result = 0;

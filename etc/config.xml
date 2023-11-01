@@ -4,8 +4,8 @@
     <default>
         <plug>
             <general>
-                <sandbox_url>https://sandbox-api.plugpagamentos.com</sandbox_url>
-                <production_url>https://api.plugpagamentos.com</production_url>
+                <sandbox_url>https://sandbox-api.malga.io</sandbox_url>
+                <production_url>https://api.malga.io</production_url>
             </general>
             <global>
                 <webhook_key/>

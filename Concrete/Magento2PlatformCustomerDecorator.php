@@ -89,4 +89,9 @@ class Magento2PlatformCustomerDecorator implements PlatformCustomerInterface
     {
         /** @TODO */
     }
+
+    public function getRegistrationDate()
+    {
+        return $this->platformCustomer->getCreatedAt();
+    }
 }
