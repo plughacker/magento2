@@ -1,13 +1,13 @@
 {
     "name": "plughacker/magento2",
     "license": "MIT",
-    "version": "1.0.2",
+    "version": "1.1.0",
     "type": "magento2-module",
     "description": "Magento 2 Plug Module",
     "minimum-stability": "dev",
     "require": {
-        "plughacker/magento2-api": "1.0.1",
-        "plughacker/magento2-core": "1.0.1"
+        "plughacker/magento2-api": "1.1.0",
+        "plughacker/magento2-core": "1.1.0"
     },
     "autoload": {
         "files": [
