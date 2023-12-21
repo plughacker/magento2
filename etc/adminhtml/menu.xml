@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
 	<menu>
-		<add id="Plug::top_level" module="PlugHacker_PlugPagamentos" resource="Magento_Backend::content" sortOrder="9999" title="Plug"/>
+		<add id="Plug::top_level" module="PlugHacker_PlugPagamentos" resource="Magento_Backend::content" sortOrder="9999" title="Malga"/>
 		<add id="Plug::plug_label" module="PlugHacker_PlugPagamentos" parent="Plug::top_level" resource="Magento_Config::config" sortOrder="1" title="Configurations"/>
 		<add action="plug/charges/index" id="Plug::plug_charges" module="PlugHacker_PlugPagamentos" parent="Plug::plug_label" resource="Magento_Backend::content" sortOrder="20" title="Charges Plug"/>
 		<add action="plug/cards/index" id="Plug::plug_cards" module="PlugHacker_PlugPagamentos" parent="Plug::plug_label" resource="Magento_Backend::content" sortOrder="10" title="Cards Plug"/>

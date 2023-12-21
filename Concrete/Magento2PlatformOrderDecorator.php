@@ -24,6 +24,7 @@ use PlugHacker\PlugCore\Kernel\ValueObjects\OrderState;
 use PlugHacker\PlugCore\Kernel\ValueObjects\OrderStatus;
 use PlugHacker\PlugCore\Kernel\ValueObjects\PaymentMethod;
 use PlugHacker\PlugCore\Payment\Aggregates\Address;
+use PlugHacker\PlugCore\Payment\Aggregates\CartItems;
 use PlugHacker\PlugCore\Payment\Aggregates\Customer;
 use PlugHacker\PlugCore\Payment\Aggregates\Item;
 use PlugHacker\PlugCore\Payment\Aggregates\Payments\AbstractCreditCardPayment;
@@ -491,17 +492,17 @@ class Magento2PlatformOrderDecorator extends AbstractPlatformOrderDecorator
         $quoteCustomer = $quote->getCustomer();
 
         $addresses = $quoteCustomer->getAddresses();
-        $address = end($addresses);
+        $billingAddress = end($addresses);
 
-        if (!$address) {
-            $address = $quote->getBillingAddress();
+        if (!$billingAddress) {
+            $billingAddress = $quote->getBillingAddress();
         }
 
         $customerRepository =
             ObjectManager::getInstance()->get(CustomerRepository::class);
         $savedCustomer = $customerRepository->getById($quoteCustomer->getId());
 
-        $customer = new Customer;
+        $customer = new Customer();
 
         $mpId = null;
         try {
@@ -530,37 +531,37 @@ class Magento2PlatformOrderDecorator extends AbstractPlatformOrderDecorator
 
         $fullName = preg_replace("/  /", " ", $fullName);
 
-        $customer->setName($fullName);
-        $customer->setEmail($quote->getCustomerEmail());
+        $customer->setName((string)$fullName);
+        $customer->setEmail((string)$quote->getCustomerEmail());
+        $customer->setRegistrationDate((string)$quoteCustomer->getCreatedAt());
 
         $cleanDocument = preg_replace(
             '/\D/',
             '',
-            $quote->getCustomer()->getTaxVat()
+            (string)$quote->getCustomer()->getTaxVat()
         );
 
         if (empty($cleanDocument)) {
             $cleanDocument = preg_replace(
                 '/\D/',
                 '',
-                $address->getVatId()
+                (string)$billingAddress->getVatId()
             );
         }
 
         $documentRequest = new CustomerDocument();
-        $documentRequest->setNumber($cleanDocument);
-        $documentRequest->setType(CustomerType::individual()->getType());
+        $documentRequest->setNumber((string)$cleanDocument);
+        $documentRequest->setType((string)CustomerType::individual()->getType());
         $documentRequest->setCountry('BR');
 
         $customer->setDocument($documentRequest);
 
-        $telephone = $address->getTelephone();
+        $telephone = $billingAddress->getTelephone();
         $homePhone = new Phone($telephone);
-        $customer->setPhoneNumber($homePhone->getFullNumber());
+        $customer->setPhoneNumber((string)$homePhone->getFullNumber());
 
-        $address = $this->getAddress($address);
-
-        $customer->setAddress($address);
+        $customer->setBillingAddress($this->getAddress($billingAddress));
+        $customer->setDeliveryAddress($this->getAddress($quote->getShippingAddress()));
 
         return $customer;
     }
@@ -576,35 +577,36 @@ class Magento2PlatformOrderDecorator extends AbstractPlatformOrderDecorator
 
         $customer = new Customer();
 
-        $customer->setName($guestAddress->getName());
-        $customer->setEmail($guestAddress->getEmail());
+        $customer->setName((string)$guestAddress->getName());
+        $customer->setEmail((string)$guestAddress->getEmail());
+        $customer->setRegistrationDate((string)$quote->getCreatedAt());
 
         $cleanDocument = preg_replace(
             '/\D/',
             '',
-            $guestAddress->getVatId()
+            (string)$guestAddress->getVatId()
         );
 
         if (empty($cleanDocument)) {
             $cleanDocument = preg_replace(
                 '/\D/',
                 '',
-                $quote->getCustomerTaxvat()
+                (string)$quote->getCustomerTaxvat()
             );
         }
 
         $documentRequest = new CustomerDocument();
-        $documentRequest->setNumber($cleanDocument);
-        $documentRequest->setType(CustomerType::individual()->getType());
+        $documentRequest->setNumber((string)$cleanDocument);
+        $documentRequest->setType((string)CustomerType::individual()->getType());
         $documentRequest->setCountry('BR');
         $customer->setDocument($documentRequest);
 
-        $telephone = $guestAddress->getTelephone();
+        $telephone = (string)$guestAddress->getTelephone();
         $phone = new Phone($telephone);
-        $customer->setPhoneNumber($phone->getFullNumber());
+        $customer->setPhoneNumber((string)$phone->getFullNumber());
 
-        $address = $this->getAddress($guestAddress);
-        $customer->setAddress($address);
+        $customer->setBillingAddress($this->getAddress($guestAddress));
+        $customer->setDeliveryAddress($this->getAddress($quote->getShippingAddress()));
 
         return $customer;
     }
@@ -635,7 +637,7 @@ class Magento2PlatformOrderDecorator extends AbstractPlatformOrderDecorator
                 continue;
             }
 
-            $item = new Item;
+            $item = new Item();
             $item->setAmount(
                 $moneyService->floatToCents($price)
             );
@@ -876,7 +878,7 @@ class Magento2PlatformOrderDecorator extends AbstractPlatformOrderDecorator
         $paymentData[$pixDataIndex][] = $newPaymentData;
     }
 
-    public function getShipping()
+    public function getShippingAddress()
     {
         $moneyService = new MoneyService();
         /** @var Shipping $shipping */
@@ -997,5 +999,25 @@ class Magento2PlatformOrderDecorator extends AbstractPlatformOrderDecorator
     public function getTotalCanceled()
     {
         return $this->platformOrder->getTotalCanceled();
+    }
+
+    public function getCartItems()
+    {
+        $items = [];
+
+        foreach ($this->platformOrder->getItems() as $item) {
+            $cartItems = new CartItems();
+            $cartItems->setName((string)$item->getName());
+            $cartItems->setQuantity((int)$item->getQtyOrdered());
+            $cartItems->setSku((string)$item->getSku());
+            $cartItems->setUnitPrice((int)str_replace(['.', ','], '', (float)$item->getPrice()));
+            $cartItems->setRisk((string)CartItems::RISK_LOW);
+            $cartItems->setDescription((string)$item->getDescription());
+            $cartItems->setCategoryId((string)implode(',', $item->getProduct()->getCategoryIds()));
+
+            $items[] = $cartItems;
+        }
+
+        return $items;
     }
 }
