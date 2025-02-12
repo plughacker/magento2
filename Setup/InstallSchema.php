@@ -237,7 +237,7 @@ class InstallSchema implements InstallSchemaInterface
                     )
                     ->addColumn(
                         'amount',
-                        Table::TYPE_INTEGER,
+                        Table::TYPE_TEXT,
                         null,
                         [
                             'unsigned' => true,
@@ -247,7 +247,7 @@ class InstallSchema implements InstallSchemaInterface
                     )
                     ->addColumn(
                         'paid_amount',
-                        Table::TYPE_INTEGER,
+                        Table::TYPE_TEXT,
                         null,
                         [
                             'unsigned' => true,
@@ -257,7 +257,7 @@ class InstallSchema implements InstallSchemaInterface
                     )
                     ->addColumn(
                         'canceled_amount',
-                        Table::TYPE_INTEGER,
+                        Table::TYPE_TEXT,
                         null,
                         [
                             'unsigned' => true,
@@ -267,7 +267,7 @@ class InstallSchema implements InstallSchemaInterface
                     )
                     ->addColumn(
                         'refunded_amount',
-                        Table::TYPE_INTEGER,
+                        Table::TYPE_TEXT,
                         null,
                         [
                             'unsigned' => true,
@@ -337,7 +337,7 @@ class InstallSchema implements InstallSchemaInterface
                     )
                     ->addColumn(
                         'amount',
-                        Table::TYPE_INTEGER,
+                        Table::TYPE_TEXT,
                         null,
                         [
                             'unsigned' => true,
@@ -347,7 +347,7 @@ class InstallSchema implements InstallSchemaInterface
                     )
                     ->addColumn(
                         'paid_amount',
-                        Table::TYPE_INTEGER,
+                        Table::TYPE_TEXT,
                         null,
                         [
                             'unsigned' => true,
