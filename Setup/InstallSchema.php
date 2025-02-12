@@ -357,30 +357,27 @@ class InstallSchema implements InstallSchemaInterface
                     )
                     ->addColumn(
                         'acquirer_tid',
-                        Table::TYPE_INTEGER,
-                        null,
+                        Table::TYPE_TEXT,
+                        300,
                         [
-                            'unsigned' => true,
                             'nullable' => false,
                         ],
                         'acquirer tid'
                     )
                     ->addColumn(
                         'acquirer_nsu',
-                        Table::TYPE_INTEGER,
-                        null,
+                        Table::TYPE_TEXT,
+                        300,
                         [
-                            'unsigned' => true,
                             'nullable' => false,
                         ],
                         'acquirer nsu'
                     )
                     ->addColumn(
                         'acquirer_auth_code',
-                        Table::TYPE_INTEGER,
-                        null,
+                        Table::TYPE_TEXT,
+                        300,
                         [
-                            'unsigned' => true,
                             'nullable' => false,
                         ],
                         'acquirer auth code'
@@ -390,7 +387,6 @@ class InstallSchema implements InstallSchemaInterface
                         Table::TYPE_TEXT,
                         300,
                         [
-                            'unsigned' => true,
                             'nullable' => false,
                         ],
                         'Type'
@@ -400,7 +396,6 @@ class InstallSchema implements InstallSchemaInterface
                         Table::TYPE_TEXT,
                         300,
                         [
-                            'unsigned' => true,
                             'nullable' => false,
                         ],
                         'Type'
@@ -410,7 +405,6 @@ class InstallSchema implements InstallSchemaInterface
                         Table::TYPE_TEXT,
                         30,
                         [
-                            'unsigned' => true,
                             'nullable' => false,
                         ],
                         'Type'
@@ -420,7 +414,6 @@ class InstallSchema implements InstallSchemaInterface
                         Table::TYPE_TEXT,
                         30,
                         [
-                            'unsigned' => true,
                             'nullable' => false,
                         ],
                         'Status'

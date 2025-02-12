@@ -91,8 +91,9 @@ final class Magento2CoreSetup extends AbstractModuleCoreSetup
 
     static protected function getPlatformHubAppPublicAppKey()
     {
-        /** @todo get the correct key for magento2 */
-        return "2d2db409-fed0-4bd8-ac1e-43eeff33458d";
+        $objectManager = ObjectManager::getInstance();
+        $storeConfig = $objectManager->get(Magento2StoreConfig::class);
+        return $storeConfig->getValue('plug/global/public_app_key');
     }
 
     public function _getDashboardLanguage()
