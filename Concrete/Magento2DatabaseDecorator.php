@@ -3,6 +3,7 @@
 namespace PlugHacker\PlugPagamentos\Concrete;
 
 use PlugHacker\PlugCore\Kernel\Abstractions\AbstractDatabaseDecorator;
+use Magento\Framework\App\ResourceConnection;
 
 final class Magento2DatabaseDecorator extends AbstractDatabaseDecorator
 {

@@ -48,6 +48,10 @@ class UpgradeData implements UpgradeDataInterface
             $setup = $this->updateVersionOneTwoFourteen($setup);
         }
 
+        if (version_compare($context->getVersion(), "2.4.7-p2", "<")) {
+            $setup = $this->updateVersionTwoFourSevenP2($setup);
+        }
+
         $setup->endSetup();
     }
 
@@ -214,6 +218,112 @@ class UpgradeData implements UpgradeDataInterface
 
         $setup->endSetup();
 
+        return $setup;
+    }
+
+    /**
+     * @param $setup
+     * @return mixed
+     */
+    protected function updateVersionTwoFourSevenP2($setup)
+    {
+        $installer = $setup;
+        $installer->startSetup();
+        $tableName = $installer->getTable('plug_charges');
+
+        // Check if the table already exists
+        if ($installer->getConnection()->isTableExists($tableName) != true) {
+            $table = $installer->getConnection()
+                ->newTable($tableName)
+                ->addColumn(
+                    'id',
+                    Table::TYPE_INTEGER,
+                    null,
+                    [
+                        'identity' => true,
+                        'unsigned' => true,
+                        'nullable' => false,
+                        'primary' => true
+                    ],
+                    'ID'
+                )
+                ->addColumn(
+                    'charge_id',
+                    Table::TYPE_TEXT,
+                    null,
+                    ['nullable' => false, 'default' => ''],
+                    'Charge Id'
+                )
+                ->addColumn(
+                    'code',
+                    Table::TYPE_TEXT,
+                    null,
+                    ['nullable' => false, 'default' => ''],
+                    'Code'
+                )
+                ->addColumn(
+                    'order_id',
+                    Table::TYPE_TEXT,
+                    null,
+                    ['nullable' => false, 'default' => ''],
+                    'Order Id'
+                )
+                ->addColumn(
+                    'type',
+                    Table::TYPE_TEXT,
+                    null,
+                    ['nullable' => false, 'default' => ''],
+                    'Type'
+                )
+                ->addColumn(
+                    'status',
+                    Table::TYPE_TEXT,
+                    null,
+                    ['nullable' => false, 'default' => ''],
+                    'Status'
+                )
+                ->addColumn(
+                    'amount',
+                    Table::TYPE_FLOAT,
+                    null,
+                    ['nullable' => false, 'default' => '0'],
+                    'Amount'
+                )
+                ->addColumn(
+                    'paid_amount',
+                    Table::TYPE_FLOAT,
+                    null,
+                    ['nullable' => false, 'default' => '0'],
+                    'Paid Amount'
+                )
+                ->addColumn(
+                    'refunded_amount',
+                    Table::TYPE_FLOAT,
+                    null,
+                    ['nullable' => false, 'default' => '0'],
+                    'Refunded Amount'
+                )
+                ->addColumn(
+                    'created_at',
+                    Table::TYPE_DATETIME,
+                    null,
+                    ['nullable' => false],
+                    'Created At'
+                )
+                ->addColumn(
+                    'updated_at',
+                    Table::TYPE_DATETIME,
+                    null,
+                    ['nullable' => false],
+                    'Updated At'
+                )
+                ->setComment('Plug Charges')
+                ->setOption('type', 'InnoDB')
+                ->setOption('charset', 'utf8');
+            $installer->getConnection()->createTable($table);
+        }
+
+        $installer->endSetup();
         return $setup;
     }
 }

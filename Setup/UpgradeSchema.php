@@ -71,6 +71,10 @@ class UpgradeSchema implements UpgradeSchemaInterface
             $setup = $this->fixTableDataSize($setup);
         }
 
+        if (version_compare($version, "2.4.7-p2", "<")) {
+            $setup = $this->updateVersionTwoFourSevenP2($setup);
+        }
+
         $setup->endSetup();
     }
 
@@ -498,6 +502,45 @@ class UpgradeSchema implements UpgradeSchemaInterface
             );
         }
 
+        return $setup;
+    }
+
+    /**
+     * @param $setup
+     * @return mixed
+     */
+    protected function updateVersionTwoFourSevenP2($setup)
+    {
+        $installer = $setup;
+        $installer->startSetup();
+
+        $tablesToUpdate = [
+            'plug_module_core_configuration',
+            'plug_module_core_webhook',
+            'plug_module_core_order',
+            'plug_module_core_charge',
+            'plug_module_core_transaction',
+            'plug_module_core_saved_card',
+            'plug_module_core_customer'
+        ];
+
+        foreach ($tablesToUpdate as $tableName) {
+            if ($installer->getConnection()->isTableExists($tableName)) {
+                $installer->getConnection()->modifyColumn(
+                    $installer->getTable($tableName),
+                    'id',
+                    [
+                        'type' => Table::TYPE_TEXT,
+                        'length' => 255,
+                        'nullable' => false,
+                        'primary' => true,
+                        'comment' => 'ID'
+                    ]
+                );
+            }
+        }
+
+        $installer->endSetup();
         return $setup;
     }
 }
