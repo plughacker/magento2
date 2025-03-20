@@ -1,7 +1,7 @@
 {
-    "name": "danton721/magento2",
+    "name": "plughacker/magento2",
     "license": "MIT",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "type": "magento2-module",
     "description": "Magento 2 Plug Module",
     "minimum-stability": "dev",
